@@ -8,7 +8,6 @@ stop:
 
 down:
 	sudo docker compose -f srcs/docker-compose.yml down --volumes --rmi all
-	sudo rm -rf /home/ahuge/data
 
 re:
 	make down

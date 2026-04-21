@@ -54,5 +54,5 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ../mariadb
+      device: ../db
       o: bind
