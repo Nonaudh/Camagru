@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // This PHP backend example processes GET and POST requests.
 
 header('Content-Type: text/html; charset=utf-8');
@@ -7,7 +12,7 @@ echo "<h1>PHP Backend Request Processor</h1>";
 
 // Process GET request
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	// require_once __DIR__ . '../dbl/connection.php';
+	require_once __DIR__ . '/../dbl/db_connect.php';
     echo "<h2>Processing GET Request</h2>";
     if (isset($_GET['username_get']) && !empty($_GET['username_get'])) {
         $username = htmlspecialchars($_GET['username_get']); // Sanitize input
