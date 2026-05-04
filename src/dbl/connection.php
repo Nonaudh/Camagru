@@ -1,8 +1,13 @@
 <?php
-$servername = "localhost";
-$username = $(DB_USER);
-$password = $(DB_PASS);
-$dbname = $(DB_NAME);
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$servername = "mariadb";
+$username = getenv('DB_USER');
+$password = getenv('DB_PASS');
+$dbname = getenv('DB_NAME');
 
 try 
 {

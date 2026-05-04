@@ -11,28 +11,10 @@
     </style>
 </head>
 <body>
-    <h1>Submit Data to PHP Backend</h1>
-
-    <h2>GET Request Example</h2>
-    <form action="php/process.php" method="GET">
+    <form action="process.php" method="POST">
         <div>
-            <label for="name_get">Name:</label>
-            <input type="text" id="name_get" name="username_get" required>
-        </div>
-        <button type="submit">Send via GET</button>
-    </form>
-
-    <hr>
-
-    <h2>POST Request Example</h2>
-    <form action="php/process.php" method="POST">
-        <div>
-            <label for="name_post">Name:</label>
-            <input type="text" id="name_post" name="username_post" required>
-        </div>
-        <div>
-            <label for="email_post">Email:</label>
-            <input type="email" id="email_post" name="email_post" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
         </div>
         <button type="submit">Send via POST</button>
     </form>

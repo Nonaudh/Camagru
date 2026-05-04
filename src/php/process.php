@@ -12,7 +12,7 @@ echo "<h1>PHP Backend Request Processor</h1>";
 
 // Process GET request
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	require_once __DIR__ . '/../dbl/db_connect.php';
+	require_once __DIR__ . '/../dbl/connection.php';
     echo "<h2>Processing GET Request</h2>";
     if (isset($_GET['username_get']) && !empty($_GET['username_get'])) {
         $username = htmlspecialchars($_GET['username_get']); // Sanitize input
@@ -29,6 +29,7 @@ echo "<hr>";
 
 // Process POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	require_once __DIR__ . '/../dbl/connection.php';
     echo "<h2>Processing POST Request</h2>";
     if (isset($_POST['username_post']) && !empty($_POST['username_post'])) {
         $username = htmlspecialchars($_POST['username_post']); // Sanitize input
@@ -43,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<p>No username found in POST request.</p>";
     }
 }
+// header("Location: index.php");
 
 echo "<p><a href='form.html'>Go back to form</a></p>";
 
