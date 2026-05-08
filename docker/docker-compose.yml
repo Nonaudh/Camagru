@@ -47,7 +47,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ../src
+      device: ../camagru
       o: bind
 
   db_data:
