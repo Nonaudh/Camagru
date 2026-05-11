@@ -3,14 +3,13 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\View;
 
 class HomeController extends Controller
 {
-	public function index()
+	public function index() : void
 	{
-		$this->render('home', [
-			'title' => "Welcome to Camagru !",
-			'slogan' => 'Let\'s take some pictures'
-		]);
+		$title = "Welcome to Camagraou";
+		View::render('home/index', compact('title'));
 	}
 }

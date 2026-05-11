@@ -1,7 +1,7 @@
 FROM debian:11
 
 RUN apt update && apt upgrade -y
-RUN apt install mariadb-server -y
+RUN apt install mariadb-server bash -y
 
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
 COPY tools/script.sh /tmp/script.sh

@@ -2,7 +2,7 @@ FROM debian:11
 
 RUN apt update && apt upgrade -y
 RUN apt install nginx -y
-RUN apt install -y iputils-ping
+RUN apt install -y iputils-ping bash
 
 RUN mkdir -p /etc/nginx/ssl
 RUN apt install openssl -y
