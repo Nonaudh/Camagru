@@ -8,7 +8,7 @@ class View
 	{
 		extract($data);
 		ob_start();
-		require __DIR__ . '/../Views' . $viewPath . '.php';
+		require __DIR__ . '/../Views/' . $viewPath . '.php';
 		$content = ob_get_clean();
 		require __DIR__ . '/../Views/layout.php';
 	}

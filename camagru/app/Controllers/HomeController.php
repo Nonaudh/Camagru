@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
 	public function index() : void
 	{
-		$title = "Welcome to Camagraou";
+		$title = "Camagraou";
 		View::render('home/index', compact('title'));
 	}
 }
