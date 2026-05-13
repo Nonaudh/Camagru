@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 session_start();
 
-var_dump($_SERVER['REQUEST_URI']);
+echo("URI " . $_SERVER['REQUEST_URI']);
 
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../autoload.php';
