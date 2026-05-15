@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Models;
+
+use App\Core\Database;
+use PDO;
+
+class User extends BaseModel
+{
+	protected string $table = 'users';
+
+	public function checkExistingEmailAndPseudo($email, $pseudo) : array
+	{
+		$sql = "SELECT email, pseudo FROM users WHERE email = :email OR pseudo = :pseudo";
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(['email' => $email, 'pseudo' => $pseudo]);
+		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$emailExist = false;
+		$pseudoExist = false;
+
+		foreach ($result as $row)
+		{
+			if ($row['email'] === $email)
+				$emailExist = true;
+			if ($row['pseudo'] === $pseudo)
+				$pseudoExist = true;
+		}
+
+		return ([
+			'email' => $emailExist,
+			'pseudo' => $pseudoExist
+		]);
+	}
+
+	public function create($data)
+	{
+		$db = $this->db;
+
+		$sql = "INSERT INTO users (
+			email,
+			password,
+			pseudo
+			) VALUES (
+			:email,
+			:password,
+			:pseudo
+			)";
+
+		$stmt = $db->prepare($sql);
+
+		if (!stmt && DEVELOPMENT == true)
+			die("Error user create prepare sql : " . implode(" ", $db->errorInfo()));
+
+		try
+		{
+			$stmt->execute([
+				'email' => $data['email'],
+				'password' => $data['password'],
+				'pseudo' => $data['pseudo']
+			]);
+
+			$data['id'] = $stmt->lastInsertId();
+
+			return ($data);
+		}
+		catch (PDOException $e)
+		{
+			if (DEVELOPMENT == true)
+				echo $e->getMessage();
+			return (false);
+		}
+	}
+}

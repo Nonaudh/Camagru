@@ -6,3 +6,4 @@ define('DB_USER', getenv('DB_USER'));
 define('DB_PASS', getenv('DB_PASS'));
 
 define('BASE_URL', '/');
+define('DEVELOPMENT', true);

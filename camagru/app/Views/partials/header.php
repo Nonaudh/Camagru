@@ -3,7 +3,7 @@
 	<nav>
 		<a href="<?= BASE_URL ?>">header</a>
 
-		<?php if (isset(&$_SESSION['user'])) : ?>
+		<?php if (isset($_SESSION['user'])) : ?>
 			<a href="<?= BASE_URL ?>webcam">Webcam</a>
 			<a href="<?= BASE_URL ?>logout">Logout</a>
 		<?php else: ?>

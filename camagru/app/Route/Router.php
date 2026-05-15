@@ -10,15 +10,25 @@ class Router
 	protected $middlewares = [];
 	protected $registeredMiddlewares = [];
 
-	public function get($path, $controllerMethod)
+	protected function addRoute(string $method, string $path, $controllerMethod)
 	{
 		$path = trim($path, '/');
-		$this->routes['GET'][] = [
+		$this->routes[$method][] = [
 			'path' => $path,
 			'controllerMethod' => $controllerMethod,
 			'middlewares' => []
 		];
 		return ($this);
+	}
+
+	public function get($path, $controllerMethod)
+	{
+		return ($this->addRoute('GET', $path, $controllerMethod));
+	}
+
+	public function post($path, $controllerMethod)
+	{
+		return ($this->addRoute('POST', $path, $controllerMethod));
 	}
 
 	public function middleware(...$middlewares)

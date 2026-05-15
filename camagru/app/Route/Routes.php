@@ -26,4 +26,11 @@ $router->registerMiddleware('admin', function() {
 // routes
 $router->get('', 'HomeController@index');
 
+$router->get('/signin', 'SigninController@index');
+$router->post('/register', 'SigninController@register');
+$router->get('/login', 'LoginController@index');
+$router->get('/logout', 'LogoutController@index');
+
+$router->get('/webcam', 'WebcamController@index')->middleware('auth');
+
 $router->dispatch();
