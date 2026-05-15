@@ -7,17 +7,17 @@ $router = new Router();
 $router->registerMiddleware('auth', function() {
 	if (!isset($_SESSION['user']))
 	{
-		header('Location: /public/login');
+		header('Location: /login');
 		return (false);
 	}
 	return (true);
 });
 
 $router->registerMiddleware('admin', function() {
-	if (!isset($_SESSION['user']) || $_SESSION['user']['roler'] !== 'admin')
+	if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin')
 	{
 		http_response_code(403);
-		echo "Admin only, sorry...";
+		header('Location: /');
 		return (false);
 	}
 	return (true);

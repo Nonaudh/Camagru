@@ -15,6 +15,6 @@ class LoginController extends Controller
 		$title = "Login - Camagraou";
 		$desc = "Login - Camagraou";
 
-		View::render('login', comp('title', 'desc'));
+		View::render('login', compact('title', 'desc'));
 	}
 }

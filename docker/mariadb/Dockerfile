@@ -10,4 +10,4 @@ RUN chmod +x /tmp/script.sh
 RUN mkdir -p /run/mysqld /var/lib/mysql
 RUN chown -R mysql:mysql /run/mysqld /var/lib/mysql
 
-ENTRYPOINT ["./tmp/script.sh"]
+ENTRYPOINT ["/tmp/script.sh"]

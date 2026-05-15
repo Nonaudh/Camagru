@@ -49,7 +49,7 @@ class User extends BaseModel
 
 		$stmt = $db->prepare($sql);
 
-		if (!stmt && DEVELOPMENT == true)
+		if (!$stmt && DEVELOPMENT == true)
 			die("Error user create prepare sql : " . implode(" ", $db->errorInfo()));
 
 		try
@@ -60,7 +60,7 @@ class User extends BaseModel
 				'pseudo' => $data['pseudo']
 			]);
 
-			$data['id'] = $stmt->lastInsertId();
+			$data['id'] = $db->lastInsertId();
 
 			return ($data);
 		}
