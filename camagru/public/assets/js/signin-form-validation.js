@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	function clearErrors()
 	{
-		document.querySelectorAll('.error-message').forEach(error => error.remove);_
+		document.querySelectorAll('.error-message').forEach(error => error.remove());
 	}
 
 	document.getElementById('signUpForm').addEventListener('submit', function(e) {

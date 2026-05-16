@@ -1,2 +1,2 @@
-<h1>Error 404</h1>
-<p>Sorry, Page Not Found...</p>
+<h1><?= $title ?></h1>
+<p><?= $desc ?></p>

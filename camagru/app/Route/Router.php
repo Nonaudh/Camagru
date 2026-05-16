@@ -105,7 +105,7 @@ class Router
 
 	protected function render404()
 	{
-		http_response_code(404);
-		return (View::render('error', [], 'layout'));
+		header('Location: ' . BASE_URL . 'error404');
+		exit;
 	}
 }

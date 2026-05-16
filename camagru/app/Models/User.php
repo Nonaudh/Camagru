@@ -71,4 +71,16 @@ class User extends BaseModel
 			return (false);
 		}
 	}
+
+	public function findByEmail(string $email) : ?array
+	{
+		$sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+		$stmt->execute();
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($user ?: null);
+	}
 }

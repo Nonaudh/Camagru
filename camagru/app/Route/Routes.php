@@ -28,9 +28,14 @@ $router->get('', 'HomeController@index');
 
 $router->get('/signin', 'SigninController@index');
 $router->post('/register', 'SigninController@register');
+
 $router->get('/login', 'LoginController@index');
+$router->post('/login/post', 'LoginController@login');
+
 $router->get('/logout', 'LogoutController@index');
 
 $router->get('/webcam', 'WebcamController@index')->middleware('auth');
+
+$router->get('/error404', 'ErrorController@notFound');
 
 $router->dispatch();
