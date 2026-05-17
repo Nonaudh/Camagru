@@ -13,7 +13,7 @@ class LoginController extends Controller
 	{
 		if (isset($_SESSION['user']))
 		{
-			header('Location :' . BASE_URL);
+			header('Location: ' . BASE_URL);
 			exit ;
 		}
 
@@ -30,7 +30,7 @@ class LoginController extends Controller
 	{
 		if (isset($_SESSION['user']))
 		{
-			header('Location :' . BASE_URL);
+			header('Location: ' . BASE_URL);
 			exit ;
 		}
 
