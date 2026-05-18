@@ -83,4 +83,14 @@ class User extends BaseModel
 
 		return ($user ?: null);
 	}
+
+	public function setResetToken($email, $token, $expiry)
+	{
+		$sql = "UPDATE users SET reset_token = :token, reset_token_expiry = :expiry WHERE email = :email";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':token', $token);
+		$stmt->bindValue(':expiry', $expiry);
+		$stmt->bindValue(':email', $email);
+		$stmt->execute();
+	}
 }

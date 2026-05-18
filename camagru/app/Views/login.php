@@ -22,4 +22,5 @@
 </form>
 <script src="<?= BASE_URL ?>assets/js/login-form-validation.js" defer></script>
 
+<p><a href="<?= BASE_URL ?>forgot">Forgot your password ?</a>
 <p>Not registered yet ? <a href="<?= BASE_URL ?>signin">Create an account</a></p>

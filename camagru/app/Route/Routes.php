@@ -38,4 +38,7 @@ $router->get('/webcam', 'WebcamController@index')->middleware('auth');
 
 $router->get('/error404', 'ErrorController@notFound');
 
+$router->get('/forgot', 'AuthController@forgotForm');
+$router->post('/forgot', 'AuthController@handleForgot');
+
 $router->dispatch();
