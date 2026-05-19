@@ -68,7 +68,7 @@ class LoginController extends Controller
 		}
 		if (!empty($errors))
 		{
-			$_SESSION['login-errors'] = $errors;
+			$_SESSION['login_errors'] = $errors;
 			header('Location: ' . BASE_URL . 'login');
 			exit;
 		}
