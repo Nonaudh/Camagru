@@ -40,5 +40,7 @@ $router->get('/error404', 'ErrorController@notFound');
 
 $router->get('/forgot', 'AuthController@forgotForm');
 $router->post('/forgot', 'AuthController@handleForgot');
+$router->get('/reset', 'AuthController@reset');
+$router->post('/updatePassword', 'AuthController@updatePassword');
 
 $router->dispatch();

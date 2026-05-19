@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Core\Database;
 use PDO;
 
-class User extends BaseModel
+class UserModel extends BaseModel
 {
 	protected string $table = 'users';
 
@@ -91,6 +91,27 @@ class User extends BaseModel
 		$stmt->bindValue(':token', $token);
 		$stmt->bindValue(':expiry', $expiry);
 		$stmt->bindValue(':email', $email);
+		$stmt->execute();
+	}
+
+	function findByToken($token)
+	{
+		$sql = "SELECT * FROM users WHERE reset_token = :token LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':token', $token);
+		$stmt->execute();
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($user ?: null);
+	}
+
+	function updatePassword($id, $hash)
+	{
+		$sql = "UPDATE users SET password = :hash, reset_token = NULL, reset_token_expiry = NULL WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':hash', $hash);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}
 }

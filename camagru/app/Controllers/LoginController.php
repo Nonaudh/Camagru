@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Core\View;
-use App\Models\User;
+use App\Models\UserModel;
 use App\Core\Database;
 
 class LoginController extends Controller
@@ -49,7 +49,7 @@ class LoginController extends Controller
 
 			if (empty($errors))
 			{
-				$userModel = new User(Database::getInstance());
+				$userModel = new UserModel(Database::getInstance());
 				$user = $userModel->findByEmail($email);
 
 				if ($user && password_verify($password, $user['password']))

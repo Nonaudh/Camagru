@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\User;
+use App\Models\UserModel;
 use App\Core\Controller;
 use App\Core\View;
 use App\Core\Database;
@@ -60,7 +60,7 @@ class SigninController extends Controller
 				exit;
 			}
 
-			$userModel = new User(Database::getInstance());
+			$userModel = new UserModel(Database::getInstance());
 
 			$existCheck = $userModel->checkExistingEmailAndPseudo(strtolower($email), $pseudo);
 
