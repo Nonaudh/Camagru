@@ -1,8 +1,13 @@
 <h1>Reset your Password</h1>
 
-<?php if (!empty($errors)) : ?>
-	<p><?= htmlspecialchars($errors) ?></p>
-<?php endif ; ?>
+<div>
+	<p class="message error">
+		<?= !empty($error) ? htmlspecialchars($error) : '' ?>
+	</p>
+	<p class="message success">
+		<?= !empty($success) ? htmlspecialchars($success) : '' ?>
+	</p>
+</div>
 
 <form method="post" action="<?= BASE_URL ?>updatePassword" id="reset_form">
 	<input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
@@ -15,4 +20,4 @@
 
 	<button type="submit">Reset Password</button>
 </form>
-<script src="<?= BASE_URL ?>assets/js/reset-password-validation.js"></script>
+<!-- <script src="<?= BASE_URL ?>assets/js/reset-password-validation.js"></script> -->

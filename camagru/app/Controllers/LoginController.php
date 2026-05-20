@@ -6,9 +6,11 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Models\UserModel;
 use App\Core\Database;
+use App\Helpers\Flash;
 
 class LoginController extends Controller
 {
+
 	public function index()
 	{
 		if (isset($_SESSION['user']))
@@ -17,13 +19,19 @@ class LoginController extends Controller
 			exit ;
 		}
 
+		$flash = Flash::get();
+
 		$title = "Login - Camagraou";
 		$desc = "Login - Camagraou";
 
-		$errors = $_SESSION['login_errors'] ?? [];
-		unset($_SESSION['login_errors']);
+		View::render('login', compact('title', 'desc', 'flash'));
+	}
 
-		View::render('login', compact('title', 'desc', 'errors'));
+	private function error($error)
+	{
+		Flash::set('error', $error);
+		header('Location: ' . BASE_URL . 'login');
+		exit ;
 	}
 
 	public function login()
@@ -34,7 +42,7 @@ class LoginController extends Controller
 			exit ;
 		}
 
-		$errors = [];
+		$_SESSION['login_error'] = '';
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
@@ -42,35 +50,26 @@ class LoginController extends Controller
 			$password = trim($_POST['password'] ?? '');
 
 			if (empty($email) || empty($password))
-				$errors[] = "email and password required.";
+				$this->error("email and password required !");
 
 			if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-				$errors[] = "Invalid e-mail address.";
+				$this->error("Invalid e-mail address.");
 
-			if (empty($errors))
+			$userModel = new UserModel(Database::getInstance());
+			$user = $userModel->findByEmail($email);
+
+			if ($user && password_verify($password, $user['password']))
 			{
-				$userModel = new UserModel(Database::getInstance());
-				$user = $userModel->findByEmail($email);
-
-				if ($user && password_verify($password, $user['password']))
-				{
-					$_SESSION['user'] = [
-						'id' => $user['id'],
-						'email' => $user['email'],
-						'pseudo' => $user['pseudo']
-					];
-					header('Location: ' . BASE_URL);
-					exit;
-				}
-				else
-					$errors[] = "Login Incorrect.";
+				$_SESSION['user'] = [
+					'id' => $user['id'],
+					'email' => $user['email'],
+					'pseudo' => $user['pseudo']
+				];
+				header('Location: ' . BASE_URL);
+				exit;
 			}
-		}
-		if (!empty($errors))
-		{
-			$_SESSION['login_errors'] = $errors;
-			header('Location: ' . BASE_URL . 'login');
-			exit;
+			else
+				$this->error("Login Incorrect.");
 		}
 	}
 }

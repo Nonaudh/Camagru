@@ -20,14 +20,15 @@ header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-sr
 	<link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+	
+	<div id="grad">
+		<?php require_once __DIR__ . '/partials/header.php'; ?>
 
-	<?php require_once __DIR__ . '/partials/header.php'; ?>
+		<main class="container">
+			<?= $content ?? ''; ?>
+		</main>
 
-	<main class="container">
-		<?= $content ?? ''; ?>
-	</main>
-
-	<?php require_once __DIR__ . '/partials/footer.php'; ?>
-
+		<?php require_once __DIR__ . '/partials/footer.php'; ?>
+	</div>
 </body>
 </html>

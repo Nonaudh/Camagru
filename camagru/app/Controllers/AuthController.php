@@ -6,6 +6,7 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Models\UserModel;
 use App\Core\Database;
+use App\Helpers\Flash;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,16 @@ class AuthController extends Controller
 		$title = "Camagraou - Forgot Password ?";
 		$desc = "Reset your password by entering your e-mail.";
 
-		View::render("auth/forgot", compact('title', 'desc'));
+		$flash = Flash::get();
+
+		View::render("auth/forgot", compact('title', 'desc', 'flash'));
+	}
+
+	private function flash_and_quit($type, $message)
+	{
+		Flash::set($type, $message);
+		header('Location: ' . BASE_URL . 'forgot');
+		exit ;
 	}
 
 	public function handleForgot()
@@ -25,21 +35,13 @@ class AuthController extends Controller
 		$email = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : '';
 
 		if (empty($email))
-		{
-			$error = "Please enter a valid email address.";
-			View::render('auth/forgot', compact('title', 'error'));
-			return ;
-		}
+			$this->flash_and_quit("error", "Invalid E-mail.");
 
 		$userModel = new UserModel(Database::getInstance());
 		$user = $userModel->findByEmail($email);
 
 		if (!$user)
-		{
-			$message = "User does not exist.";
-			View::render('auth/forgot', compact('title', 'message'));
-			return ;
-		}
+			$this->flash_and_quit("error", "User does not exist.");
 
 		$token = bin2hex(random_bytes(32));
 		$expiry = date('Y-m-d H:i:s', time() + 900);
@@ -48,9 +50,11 @@ class AuthController extends Controller
 
 		$this->sendResetEmail($email, $token);
 
-		$message = "Password reset mail was sent";
+		$this->flash_and_quit("success", "Password reset mail was sent");
 
-		View::render('auth/forgot', compact('title', 'message'));
+		// $message = "Password reset mail was sent";
+
+		// View::render('auth/forgot', compact('title', 'message'));
 	}
 
 	public function sendResetEmail($email, $token)
