@@ -48,9 +48,9 @@ class AuthController extends Controller
 
 		$userModel->setResetToken($email, $token, $expiry);
 
-		$this->sendResetEmail($email, $token);
+		$message = $this->sendResetEmail($email, $token);
 
-		$this->flash_and_quit("success", "Password reset mail was sent");
+		$this->flash_and_quit("success", $message);
 
 		// $message = "Password reset mail was sent";
 
@@ -65,7 +65,7 @@ class AuthController extends Controller
         //    'X-Mailer: PHP/' . phpversion();
 		// $sent = mail($email, $subject, $token, $headers);
 		// var_dump($sent);
-		echo("https://localhost:8443/reset?token=" . $token);
+		return ("https://localhost:8443/reset?token=" . $token);
 	}
 
 	function reset()

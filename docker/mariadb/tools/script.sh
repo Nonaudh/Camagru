@@ -22,4 +22,5 @@ EOF
 mysql_install_db
 mysqld
 
-# ALTER TABLE users ADD COLUMN reset_token_expiry DATETIME;
+# ALTER TABLE users ADD COLUMN reset_token VARCHAR(255);
+
