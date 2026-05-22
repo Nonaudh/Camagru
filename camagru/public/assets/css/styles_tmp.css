@@ -1,52 +1,35 @@
-* {
-  box-sizing: inherit;
-}
-
-html {
-  height: 100%;
-  box-sizing: border-box;
-}
-
 body {
-	height: 100%;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     text-align: center;
 }
 
-.wrapper {
-	min-height: 100%;
-	display: grid;
-	grid-template-rows: auto 1fr auto;
-	background: linear-gradient(to bottom right, #c2ebf8, #4401fd);
+#grad {
+  background-image: linear-gradient(to bottom right, #FDFCFB, #E2D1C3);
 }
 
 header, footer {
-	padding: 1rem;
-	color: #bafd01;
-}
+    /* background: #f5f5f5; */
 
-header h1 a {
-	font-style: Arial, sans-serif;
-	font-size : 3rem;
-	text-decoration: none;
-	color : inherit;
+	backdrop-filter: brightness(98%);
+    padding: 1rem;
+    text-align: center;
 }
 
 nav a {
-    margin: 1rem;
-	color : inherit;
+    margin: 0 1rem;
     text-decoration: none;
-	font-size : 1.5rem;
+    color: #333;
 }
 
 main.container {
-    padding: 1rem;
+    padding: 2rem;
 }
 
 .message {
 	min-height: 20px;
+	font-size: 0.9rem;
 	margin: 0;
 }
 

@@ -20,10 +20,10 @@ class AuthController extends Controller
 		View::render("auth/forgot", compact('title', 'desc', 'flash'));
 	}
 
-	private function flash_and_quit($type, $message)
+	private function flash_and_quit($type, $message, $path)
 	{
 		Flash::set($type, $message);
-		header('Location: ' . BASE_URL . 'forgot');
+		header('Location: ' . BASE_URL . $path);
 		exit ;
 	}
 
@@ -35,13 +35,13 @@ class AuthController extends Controller
 		$email = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : '';
 
 		if (empty($email))
-			$this->flash_and_quit("error", "Invalid E-mail.");
+			$this->flash_and_quit("error", "Invalid E-mail.", "forgot");
 
 		$userModel = new UserModel(Database::getInstance());
 		$user = $userModel->findByEmail($email);
 
 		if (!$user)
-			$this->flash_and_quit("error", "User does not exist.");
+			$this->flash_and_quit("error", "User does not exist.", "forgot");
 
 		$token = bin2hex(random_bytes(32));
 		$expiry = date('Y-m-d H:i:s', time() + 900);
@@ -50,7 +50,7 @@ class AuthController extends Controller
 
 		$message = $this->sendResetEmail($email, $token);
 
-		$this->flash_and_quit("success", $message);
+		$this->flash_and_quit("success", $message, "forgot");
 
 		// $message = "Password reset mail was sent";
 
@@ -71,6 +71,7 @@ class AuthController extends Controller
 	function reset()
 	{
 		$title = "Camagraou - Forgot Password ?";
+		$flash = Flash::get();
 
 		$token = $_GET['token'] ?? '';
 		$errors = [];
@@ -97,7 +98,7 @@ class AuthController extends Controller
 			$errors = ["Token expired."];
 			return ;
 		}
-		View::render('auth/reset_form', compact('title', 'token'));
+		View::render('auth/reset_form', compact('title', 'token', 'flash'));
 	}
 
 	function updatePassword()
@@ -108,17 +109,25 @@ class AuthController extends Controller
 			$password = $_POST['password'] ?? '';
 			$confirm = $_POST['confirm'] ?? '';
 
-			// add verif maybe ?
+			if (empty($password))
+				$this->flash_and_quit("error", "Password is needed.", "reset?token=" . $token);
+			elseif (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $password))
+				$this->flash_and_quit("error", "Password need to have at least 8 caracters, an uppercase letter and a number.", "reset?token=" . $token);
+			
+			if ($password !== $confirm)
+				$this->flash_and_quit("error", "Passwords does not matches.", "reset?token=" . $token);
 
 			$userModel = new UserModel(Database::getInstance());
         	$user = $userModel->findByToken($token);
 
+			if (!$user)
+				$this->flash_and_quit("error", "Unexpected Error...", "reset?token=" . $token);
+
 			$hash = password_hash($password, PASSWORD_DEFAULT);
 
-			$userModel->updatePassword($user['id'], $hash);
+			$userModel->updatePassword($user['id'], $hash, "reset?token=" . $token);
 
-			$errors = ["Password successfuly been changed."];
-			View::render('login', compact('errors'));
+			$this->flash_and_quit("success", "Password successfuly been changed.", "");
 		}
 	}
 }

@@ -6,19 +6,37 @@ use App\Models\UserModel;
 use App\Core\Controller;
 use App\Core\View;
 use App\Core\Database;
+use App\Helpers\Flash;
 
 class SigninController extends Controller
 {
 	public function index()
 	{
 		if (isset($_SESSION['user']))
-			exit;
+			header('Location: ' . BASE_URL);
 
 		$title = "Signin - Camagraou";
 		$desc = "Signin - Camagraou";
 
-		View::render('signin', compact('title', 'desc'));
+		$flash = Flash::get();
+
+		View::render('signin', compact('title', 'desc', 'flash'));
 	}
+
+	private function flash_and_quit($type, $message, $path)
+	{
+		Flash::set($type, $message);
+		header('Location: ' . BASE_URL . $path);
+		exit ;
+	}
+
+
+	// private function error($error)
+	// {
+	// 	Flash::set('error', $error);
+	// 	header('Location: ' . BASE_URL . 'signin');
+	// 	exit ;
+	// }
 
 	public function register()
 	{
@@ -32,51 +50,36 @@ class SigninController extends Controller
 			$email = trim($_POST['email'] ?? '');
 			$password = $_POST['password'] ?? '';
 			$confim = $_POST['confirm_password'] ?? '';
+
+			$_SESSION['old'] = $_POST;
 			
 			if (empty($pseudo))
-				$errors['pseudo'] = "Pseudo is needed.";
-			elseif (strlen($pseudo) < 4)
-				$errors['pseudo'] = "Pseudo need to have at least 4 caracters.";
+				$this->flash_and_quit("error", "Pseudo is needed.", "signin");
+			if (strlen($pseudo) < 4)
+				$this->flash_and_quit("error", "Pseudo need to have at least 4 caracters.", "signin");
 
 			if (empty($email))
-				$errors['email'] = "Email is needed.";
+				$this->flash_and_quit("error", "Email is needed.", "signin");
 			elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
-				$errors['email'] = "Invalid Email.";
+				$this->flash_and_quit("error", "Invalid Email.", "signin");
 
 			if (empty($password))
-				$errors['password'] = "Password is needed.";
+				$this->flash_and_quit("error", "Password is needed.", "signin");
 			elseif (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $password))
-				$errors['password'] = "Password need to have at least 8 caracters, an uppercase letter and a number.";
+				$this->flash_and_quit("error", "Password need to have at least 8 caracters, an uppercase letter and a number.", "signin");
 			
 			if ($password !== $confim)
-				$errors['confirm'] = "Passwords does not matches.";
-
-			if (!empty($errors))
-			{
-				$_SESSION['errors'] = $errors;
-				$_SESSION['old'] = $_POST;
-
-				header('Location: '.BASE_URL.'signin');
-				exit;
-			}
+				$this->flash_and_quit("error", "Passwords does not matches.", "signin");
 
 			$userModel = new UserModel(Database::getInstance());
 
 			$existCheck = $userModel->checkExistingEmailAndPseudo(strtolower($email), $pseudo);
 
-			if ($existCheck['email'] || $existCheck['pseudo'])
-			{
-				if ($existCheck['email'])
-					$errors['email'] = 'Email already exist.';
-				if ($existCheck['pseudo'])
-					$errors['pseudo'] = 'Pseudo already exist.';
+			if ($existCheck['pseudo'])
+				$this->flash_and_quit("error", "Pseudo already exist.", "signin");
+			if ($existCheck['email'])
+				$this->flash_and_quit("error", "Email already exist.", "signin");
 
-				$_SESSION['errors'] = $errors;
-				$_SESSION['old'] = $_POST;
-
-				header('Location: '.BASE_URL.'signin');
-				exit;
-			}
 			$hachedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 			$userModel->create([
@@ -92,8 +95,7 @@ class SigninController extends Controller
 				'role' => 'user'
 			];
 
-			header('Location: '.BASE_URL);
-			exit;
+			$this->flash_and_quit("success", "Account successfully created !", '');
 		}
 	}
 }
