@@ -30,14 +30,6 @@ class SigninController extends Controller
 		exit ;
 	}
 
-
-	// private function error($error)
-	// {
-	// 	Flash::set('error', $error);
-	// 	header('Location: ' . BASE_URL . 'signin');
-	// 	exit ;
-	// }
-
 	public function register()
 	{
 		if (isset($_SESSION['user']))

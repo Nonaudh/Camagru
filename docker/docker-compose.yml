@@ -25,6 +25,7 @@ services:
       - mariadb
     volumes:
       - php_data:/var/www/html
+      - images:/var/www/html/images
     networks:
       inception:
 
@@ -56,3 +57,5 @@ volumes:
       type: none
       device: ../db
       o: bind
+
+  images:

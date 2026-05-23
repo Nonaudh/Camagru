@@ -1,6 +1,6 @@
 all:
 	mkdir -p db
-	docker compose -f docker/docker-compose.yml up
+	docker compose -f docker/docker-compose.yml up --build
 
 stop:
 	docker compose -f docker/docker-compose.yml stop

@@ -6,5 +6,8 @@ RUN apt update && apt upgrade -y && \
 
 RUN mkdir -p /run/php
 COPY /conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY /tool/script.sh /tmp/script.sh
 
-CMD ["php-fpm7.4", "-F"]
+RUN chmod +x /tmp/script.sh
+
+ENTRYPOINT ["/tmp/script.sh"]

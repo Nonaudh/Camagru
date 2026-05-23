@@ -1,6 +1,6 @@
-* {
+/* * {
   box-sizing: inherit;
-}
+} */
 
 html {
   height: 100%;
@@ -23,6 +23,7 @@ body {
 }
 
 header, footer {
+	backdrop-filter: invert(5%);
 	padding: 1rem;
 	color: #bafd01;
 }
