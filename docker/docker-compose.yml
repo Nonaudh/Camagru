@@ -35,7 +35,7 @@ services:
     restart: always
     env_file: .env
     volumes:
-      - db_data:/var/lib/mysql
+      - database:/var/lib/mysql
     networks:
       inception:
 
@@ -51,11 +51,6 @@ volumes:
       device: ../camagru
       o: bind
 
-  db_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ../db
-      o: bind
+  database:
 
   images:
