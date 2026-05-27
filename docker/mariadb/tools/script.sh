@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS images (
 
 EOF
 
-mysql_install_db
+# mysql_install_db
+mysql_upgrade
 mysqld
 
 # ALTER TABLE users ADD COLUMN reset_token VARCHAR(255);

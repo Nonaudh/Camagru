@@ -7,3 +7,10 @@
 
 	<button type="submit">Submit File</button>
 </form>
+
+<video autoplay="true" id="videoElement"></video>
+<button id="captureButton">Capture Photo</button>
+<canvas id="canvasElement" style="display: none;"></canvas>
+<img id="photoElement" style="display: none;">
+<script src="<?= BASE_URL ?>assets/js/webcam.js"></script>
+

@@ -15,6 +15,12 @@ body {
     text-align: center;
 }
 
+#videoElement {
+	/* width: 500px; */
+	/* height: 375px; */
+	/* background-color: #666; */
+}
+
 .wrapper {
 	min-height: 100%;
 	display: grid;
