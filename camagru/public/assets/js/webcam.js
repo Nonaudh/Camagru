@@ -1,7 +1,7 @@
-var videoElement = document.querySelector("#videoElement");
-const canvasElement = document.getElementById('canvasElement');
-const photoElement = document.getElementById('photoElement');
-const captureButton = document.getElementById('captureButton');
+const videoElement = document.getElementById("video");
+const canvasElement = document.getElementById('canvas');
+const photoElement = document.getElementById('photo');
+const captureButton = document.getElementById('capture-btn');
 
 if (navigator.mediaDevices.getUserMedia)
 {
@@ -10,17 +10,26 @@ if (navigator.mediaDevices.getUserMedia)
 		videoElement.srcObject = stream;
 	})
 	.catch(function (error) {
-		console.log("Something went wrong!");
+		console.error(error);
 	});
 }
 
 function capturePhoto() {
 	canvasElement.width = videoElement.videoWidth;
     canvasElement.height = videoElement.videoHeight;
-    canvasElement.getContext('2d').drawImage(videoElement, 0, 0);
+
+    const context = canvasElement.getContext('2d');
+	
+	context.drawImage(videoElement, 0, 0);
+	
+	console.log(captureButton);
+
     const photoDataUrl = canvasElement.toDataURL('image/jpeg');
+
     photoElement.src = photoDataUrl;
+
     photoElement.style.display = 'block';
+	videoElement.style.display = 'none';
 }
 
 captureButton.addEventListener('click', capturePhoto);
