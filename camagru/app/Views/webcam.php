@@ -1,27 +1,22 @@
 <h1>Welcome to Webcam</h1>
 <p>Hi <?= htmlspecialchars($_SESSION['user']['pseudo']) ?> !</p>
 
-<form id="fileInput" action="<?= BASE_URL ?>webcam/fileInput" method="post" enctype="multipart/form-data">
-	<label for="fileInput">Select a file:</label>
-	<input type="file" id="fileInput" name="fileInput" required>
+<?php phpinfo(); ?>
 
-	<button type="submit">Submit File</button>
-</form>
+<div class="camera-container">
+    <video id="video" autoplay></video>
+    <canvas id="canvas" hidden></canvas>
 
-<!-- <video autoplay="true" id="videoElement"></video>
-<button id="captureButton">Capture Photo</button>
-<canvas id="canvasElement" style="display: none;"></canvas>
-<img id="photoElement" style="display: none;">
-<script src="<?= BASE_URL ?>assets/js/webcam.js"></script> -->
+	<img id="previewSticker"
+        class="overlay-sticker"
+        src=""
+        hidden
+    >
 
-<div id="camera-block">
-	
-	<video id="video" autoplay="true"></video>
+</div>
 
-	<canvas id="canvas" style="display: none;"></canvas>
-
-	<img id="photo" style="display: none;" />
-
+<div id="stickers">
+	<img class="sticker" src="/assets/stickers/crash.png">
 </div>
 
 <div class="buttons">

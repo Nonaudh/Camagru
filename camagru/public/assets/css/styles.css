@@ -15,12 +15,6 @@ body {
     text-align: center;
 }
 
-#videoElement {
-	/* width: 500px; */
-	/* height: 375px; */
-	/* background-color: #666; */
-}
-
 .wrapper {
 	min-height: 100%;
 	display: grid;
@@ -90,4 +84,21 @@ form button:hover {
 form label {
 	font-size: 14px;
 	margin-top: 6px;
+}
+
+.sticker {
+    height: 100px;
+}
+
+.camera-container {
+    position: relative;
+}
+
+.overlay-sticker {
+    position: absolute;
+    height: 100px;
+
+	top: 50%;
+    left: 50%;
+	transform: translate(-50%, -50%);
 }

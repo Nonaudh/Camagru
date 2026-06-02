@@ -2,8 +2,6 @@
 
 session_start();
 
-// echo "URI " , $_SERVER['REQUEST_URI'] , "\n";
-
 require_once __DIR__ . '/../config.php';
 
 if (DEVELOPMENT == true)

@@ -1,35 +1,38 @@
-const videoElement = document.getElementById("video");
-const canvasElement = document.getElementById('canvas');
-const photoElement = document.getElementById('photo');
+const video = document.getElementById('video');
 const captureButton = document.getElementById('capture-btn');
 
-if (navigator.mediaDevices.getUserMedia)
-{
-	navigator.mediaDevices.getUserMedia({video : true})
-	.then(function (stream) {
-		videoElement.srcObject = stream;
-	})
-	.catch(function (error) {
-		console.error(error);
-	});
-}
-
-function capturePhoto() {
-	canvasElement.width = videoElement.videoWidth;
-    canvasElement.height = videoElement.videoHeight;
-
-    const context = canvasElement.getContext('2d');
-	
-	context.drawImage(videoElement, 0, 0);
-	
-	console.log(captureButton);
-
-    const photoDataUrl = canvasElement.toDataURL('image/jpeg');
-
-    photoElement.src = photoDataUrl;
-
-    photoElement.style.display = 'block';
-	videoElement.style.display = 'none';
-}
+navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+.then(stream => { video.srcObject = stream; })
+.catch(err => { console.error(err); });
 
 captureButton.addEventListener('click', capturePhoto);
+
+function capturePhoto() {
+
+	alert("click");
+
+	const canvas = document.getElementById('canvas');
+	const context = canvas.getContext('2d');
+
+	canvas.width = video.videoWidth;
+	canvas.height = video.videoHeight;
+
+	context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+	const photoDataUrl = canvas.toDataURL('image/jpeg');
+}
+
+let selectedSticker = null;
+
+document.querySelectorAll('.sticker').forEach(sticker => {
+    sticker.addEventListener('click', () => {
+
+		alert("click stickers");
+        selectedSticker = sticker.src;
+
+        const preview = document.getElementById('previewSticker');
+
+        preview.src = selectedSticker;
+        preview.hidden = false;
+    });
+});

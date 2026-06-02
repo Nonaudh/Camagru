@@ -48,7 +48,7 @@ class AuthController extends Controller
 
 		$userModel->setResetToken($email, $token, $expiry);
 
-		$message = $this->sendResetEmail($email, $token);
+		$message = $this->sendResetEmail($email, "https://localhost:8443/reset?token=" . $token);
 
 		$this->flash_and_quit("success", $message, "forgot");
 
@@ -59,13 +59,14 @@ class AuthController extends Controller
 
 	public function sendResetEmail($email, $token)
 	{
-		// $subject = "Reset your email.";
-		// $headers = 'From: webmaster@example.com' . "\r\n" .
-        //    'Reply-To: webmaster@example.com' . "\r\n" .
-        //    'X-Mailer: PHP/' . phpversion();
-		// $sent = mail($email, $subject, $token, $headers);
-		// var_dump($sent);
-		return ("https://localhost:8443/reset?token=" . $token);
+		$subject = "Reset your email.";
+		$headers = 'From: camagru@42.fr' . "\r\n" .
+           'Reply-To: camagru@42.fr' . "\r\n" .
+           'X-Mailer: PHP/' . phpversion();
+		$sent = mail($email, $subject, $token, $headers);
+		print_r($sent);
+		// return ("https://localhost:8443/reset?token=" . $token);
+		return ($sent);
 	}
 
 	function reset()
