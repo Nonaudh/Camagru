@@ -44,4 +44,14 @@ class WebcamController extends Controller
 				echo "Move upload CASSÉ";
 		}
 	}
+
+	public function capture()
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+			exit ;
+
+		$data = json_decode(file_get_contents('php://input'), true);
+
+		$this->debug($data);
+	}
 }

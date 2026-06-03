@@ -9,7 +9,8 @@ captureButton.addEventListener('click', capturePhoto);
 
 function capturePhoto() {
 
-	alert("click");
+	if (!selectedSticker)
+		return ;
 
 	const canvas = document.getElementById('canvas');
 	const context = canvas.getContext('2d');
@@ -17,22 +18,39 @@ function capturePhoto() {
 	canvas.width = video.videoWidth;
 	canvas.height = video.videoHeight;
 
-	context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+	context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
 	const photoDataUrl = canvas.toDataURL('image/jpeg');
+
+	fetch('/webcam/capture', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			image: photoDataUrl,
+			sticker: selectedSticker,
+			x: 0,
+			y: 0
+		})
+	})
+	.then(res => res.text())
+	.then(data => console.log(data))
+	.catch(err => console.error(err));
+	alert("sent");
 }
 
 let selectedSticker = null;
 
 document.querySelectorAll('.sticker').forEach(sticker => {
-    sticker.addEventListener('click', () => {
-
-		alert("click stickers");
-        selectedSticker = sticker.src;
-
-        const preview = document.getElementById('previewSticker');
-
-        preview.src = selectedSticker;
-        preview.hidden = false;
-    });
-});
+	sticker.addEventListener('click', () => {
+		
+			selectedSticker = sticker.src;
+			
+			const preview = document.getElementById('previewSticker');
+			
+			preview.src = selectedSticker;
+			preview.hidden = false;
+		});
+	});
+	
