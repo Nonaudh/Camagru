@@ -74,7 +74,7 @@ class SigninController extends Controller
 
 			$hachedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-			$userModel->create([
+			$data = $userModel->create([
 				'email' => $email,
 				'password' => $hachedPassword,
 				'pseudo' => $pseudo
@@ -82,6 +82,7 @@ class SigninController extends Controller
 			]);
 
 			$_SESSION['user'] = [
+				'id' => $data['id'],
 				'pseudo' => $pseudo,
 				'email' => $email,
 				'role' => 'user'

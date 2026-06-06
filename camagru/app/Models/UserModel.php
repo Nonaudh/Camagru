@@ -37,15 +37,8 @@ class UserModel extends BaseModel
 	{
 		$db = $this->db;
 
-		$sql = "INSERT INTO users (
-			email,
-			password,
-			pseudo
-			) VALUES (
-			:email,
-			:password,
-			:pseudo
-			)";
+		$sql = "INSERT INTO users ( email, password, pseudo) 
+				VALUES (:email, :password, :pseudo)";
 
 		$stmt = $db->prepare($sql);
 

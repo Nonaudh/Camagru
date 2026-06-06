@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\View;
 use App\Helpers\Flash;
+use App\Models\ImageModel;
+use App\Core\Database;
 
 class HomeController extends Controller
 {
@@ -13,6 +15,10 @@ class HomeController extends Controller
 		$title = "Camagraou";
 		$flash = Flash::get();
 
-		View::render('home/index', compact('title', 'flash'));
+		$imageModel = new ImageModel(Database::getInstance());
+
+		$images = $imageModel->getAllImages();
+
+		View::render('home/index', compact('title', 'flash', 'images'));
 	}
 }
