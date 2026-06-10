@@ -17,18 +17,11 @@ document.addEventListener('mousemove', (e) => {
     if (!isDragging)
         return;
 
-	const videoRect = video.getBoundingClientRect();
-
-	console.log(videoRect);
-
-	const x = e.clientX - videoRect.left - offsetX;
-    const y = e.clientY - videoRect.top - offsetY;
+	const x = e.clientX - offsetX;
+    const y = e.clientY - offsetY;
 
     stickers.style.left = `${x}px`;
     stickers.style.top = `${y}px`;
-
-	console.log(stickers.style.left);
-	console.log(stickers.style.top);
 });
 
 document.addEventListener('mouseup', () => {

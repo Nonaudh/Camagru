@@ -26,10 +26,10 @@ header, footer {
 	backdrop-filter: invert(5%);
 	padding: 1rem;
 	color: #bafd01;
+	text-shadow: 1px 1px 2px black;
 }
 
 header h1 a {
-	font-style: Arial, sans-serif;
 	font-size : 3rem;
 	text-decoration: none;
 	color : inherit;
@@ -109,13 +109,13 @@ form label {
 }
 
 .pictures-container img {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  width: 200px;
-  margin: 5px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 5px;
+	width: 200px;
+	margin: 5px;
 }
 
 .pictures-container img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
