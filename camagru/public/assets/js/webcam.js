@@ -30,8 +30,8 @@ function capturePhoto() {
 		body: JSON.stringify({
 			image: photoDataUrl,
 			sticker: selectedSticker,
-			x: 0,
-			y: 0
+			x: sticker.style.left,
+			y: sticker.style.top
 		})
 	})
 	.then(res => res.text())

@@ -15,7 +15,11 @@ class WebcamController extends Controller
 		$title = "Webcam - Camagraou";
 		$desc = "Webcam - Camagraou";
 
-		View::render('webcam', compact('title', 'desc'));
+		$imageModel = new ImageModel(Database::getInstance());
+
+		$images = $imageModel->getImageForThumbnails($_SESSION['user']['id']);
+
+		View::render('webcam', compact('title', 'desc', 'images'));
 	}
 
 	private function debug($var)
@@ -80,7 +84,7 @@ class WebcamController extends Controller
 
 		$sticker = imagecreatefrompng('/var/www/html/public/' . str_replace('https://localhost:8443/', '', $data['sticker']));
 
-		imagecopy($img, $sticker, 0, 0, 0, 0, imagesx($sticker), imagesy($sticker));
+		imagecopy($img, $sticker, $data['x'], $data['y'], 0, 0, imagesx($sticker), imagesy($sticker));
 
 		imagejpeg($img, $filename, 90);
 

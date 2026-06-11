@@ -50,4 +50,27 @@ class ImageModel extends BaseModel
 
 		return ($images ?? null);
 	}
+
+	public function getImageForThumbnails($user_id)
+	{
+		$sql = 'SELECT * FROM images WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 8';
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$images = $stmt->fetchAll();
+
+		return ($images ?? null);
+	}
+
+	public function getImageById($id)
+	{
+		$sql = "SELECT * FROM images WHERE id = :id LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->execute();
+
+		$image = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($image ?: null);
+	}
 }

@@ -8,16 +8,29 @@
 	<button type="submit">Submit File</button>
 </form>
 
-<div class="camera-container">
-    <video id="video" autoplay></video>
-    <canvas id="canvas" hidden></canvas>
+<div id="webcam-container">
+	<div id="camera-container">
+		<video id="video" autoplay></video>
+		<canvas id="canvas" hidden></canvas>
 
-	<img id="previewSticker" class="overlay-sticker" src="" hidden>
+		<img id="previewSticker" class="overlay-sticker" src="" hidden>
+	</div>
+
+    <div id="thumbnails">
+		<?php foreach ($images as $image)
+		{
+			echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
+			echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
+			echo '</a>';
+		}
+		?>
+    </div>
 </div>
 
 <div id="stickers">
 	<img class="sticker" src="/assets/stickers/crash.png">
 	<img class="sticker" src="/assets/stickers/wu-tang-logo.png">
+	<img class="sticker" src="/assets/stickers/cdm2.png">
 </div>
 
 <button type="button" id="capture-btn">Take Photo</button>

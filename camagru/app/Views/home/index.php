@@ -9,7 +9,7 @@
 
 	<?php foreach ($images as $image)
 	{
-		echo '<a target="_blank" href="' . str_replace('.jpeg', '', htmlspecialchars($image['filepath'])) . '">';
+		echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
 		echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
 		echo '</a>';
 	}

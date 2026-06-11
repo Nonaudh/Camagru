@@ -90,16 +90,27 @@ form label {
     height: 100px;
 }
 
-.camera-container {
+#webcam-container {
+	display: flex;
+	justify-content: center;
+    margin: 0 auto;
+	align-items: flex-start;
+	gap: 20px; 
+}
+
+#camera-container {
     position: relative;
+	width: 640px;
+	height: 480px;
+	margin-top: 14px;
+	margin-bottom: 14px;
+	margin-left: 20%;
 }
 
 .overlay-sticker {
     position: absolute;
-
-	top: 50%;
-    left: 50%;
-	transform: translate(-50%, -50%);
+	top: 0;
+	left: 0;
 	cursor: grab;
 }
 
@@ -117,5 +128,24 @@ form label {
 }
 
 .pictures-container img:hover {
+	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+#thumbnails {
+	width: 400px;
+    border: 1px solid #ccc;
+    padding: 10px;
+	background-color: red;
+}
+
+#thumbnails img {
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 5px;
+	width: 125px;
+	margin: 5px;
+}
+
+#thumbnails img:hover {
 	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
