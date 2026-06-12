@@ -4,5 +4,6 @@
 	<?= !empty($flash) ? htmlspecialchars($flash['message']) : '' ?>
 </p>
 
-<?= '<img src= "' . htmlspecialchars($image['filepath']) . '">'; ?>
-
+<div class="image-details">
+	<?= '<img src= "' . htmlspecialchars($image['filepath']) . '">'; ?>
+</div>

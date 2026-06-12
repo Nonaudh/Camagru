@@ -84,7 +84,7 @@ class WebcamController extends Controller
 
 		$sticker = imagecreatefrompng('/var/www/html/public/' . str_replace('https://localhost:8443/', '', $data['sticker']));
 
-		imagecopy($img, $sticker, $data['x'], $data['y'], 0, 0, imagesx($sticker), imagesy($sticker));
+		imagecopy($img, $sticker, $data['x'] * imagesx($img), $data['y'] * imagesy($img), 0, 0, imagesx($sticker), imagesy($sticker));
 
 		imagejpeg($img, $filename, 90);
 

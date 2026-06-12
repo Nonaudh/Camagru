@@ -104,7 +104,12 @@ form label {
 	height: 480px;
 	margin-top: 14px;
 	margin-bottom: 14px;
-	margin-left: 20%;
+	/* margin-left: 20%; */
+}
+
+#camera-container video, #camera-container canvas {
+	width: 640px;
+	height: 480px;
 }
 
 .overlay-sticker {
@@ -114,10 +119,10 @@ form label {
 	cursor: grab;
 }
 
-.pictures-container {
+/* .pictures-container {
 	padding-left: 20%;
 	padding-right: 20%;
-}
+} */
 
 .pictures-container img {
 	border: 1px solid #ddd;
@@ -125,6 +130,34 @@ form label {
 	padding: 5px;
 	width: 200px;
 	margin: 5px;
+}
+
+@media screen and (max-width: 600px) {
+	.pictures-container img {
+		width: 75px;
+	}
+
+	.image-details img {
+		width: 300px;
+	}
+
+	#camera-container {
+	width: 320px;
+	height: 240px;
+	}
+
+	#camera-container video, #camera-container canvas {
+		width: 320px;
+		height: 240px;
+	}
+
+	.overlay-sticker {
+		width: 20px;
+	}
+
+	#thumbnails {
+		display: none;
+	}
 }
 
 .pictures-container img:hover {

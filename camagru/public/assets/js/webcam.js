@@ -1,7 +1,15 @@
 const video = document.getElementById('video');
 const captureButton = document.getElementById('capture-btn');
 
-navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+function getConstraints()
+{
+	if (window.matchMedia("(max-width: 600px)").matches) {
+		return { video: { width: 320, height: 240 } };
+	}
+	return { video: { width: 640, height: 480 } };
+}
+
+navigator.mediaDevices.getUserMedia(getConstraints())
 .then(stream => { video.srcObject = stream; })
 .catch(err => { console.error(err); });
 
@@ -30,8 +38,8 @@ function capturePhoto() {
 		body: JSON.stringify({
 			image: photoDataUrl,
 			sticker: selectedSticker,
-			x: sticker.style.left,
-			y: sticker.style.top
+			x: sticker.dataset.x,
+			y: sticker.dataset.y
 		})
 	})
 	.then(res => res.text())

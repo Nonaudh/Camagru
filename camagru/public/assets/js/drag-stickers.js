@@ -32,12 +32,30 @@ document.addEventListener('mousemove', (e) => {
 	x = Math.max(0, Math.min(x, container.clientWidth - sticker.offsetWidth));
     y = Math.max(0, Math.min(y, container.clientHeight - sticker.offsetHeight));
 
+	const xPercent = x / containerRect.width;
+    const yPercent = y / containerRect.height;
+
+    sticker.dataset.x = xPercent;
+    sticker.dataset.y = yPercent;
+
     sticker.style.left = x + "px";
     sticker.style.top = y + "px";
 
-	console.log(`x=${x}, y=${y}`);
+	console.log(`x=${xPercent}, y=${yPercent}`);
 });
 
 document.addEventListener('mouseup', () => {
     isDragging = false;
 });
+
+function updateStickerPosition() {
+    const containerRect = container.getBoundingClientRect();
+
+    const x = sticker.dataset.x * containerRect.width;
+    const y = sticker.dataset.y * containerRect.height;
+
+    sticker.style.left = `${x}px`;
+    sticker.style.top = `${y}px`;
+}
+
+window.addEventListener('resize', updateStickerPosition);
