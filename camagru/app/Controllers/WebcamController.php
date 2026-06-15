@@ -15,11 +15,11 @@ class WebcamController extends Controller
 		$title = "Webcam - Camagraou";
 		$desc = "Webcam - Camagraou";
 
-		$imageModel = new ImageModel(Database::getInstance());
+		// $imageModel = new ImageModel(Database::getInstance());
 
-		$images = $imageModel->getImageForThumbnails($_SESSION['user']['id']);
+		// $images = $imageModel->getImageForThumbnails($_SESSION['user']['id']);
 
-		View::render('webcam', compact('title', 'desc', 'images'));
+		View::render('webcam', compact('title', 'desc'));
 	}
 
 	private function debug($var)
@@ -104,5 +104,19 @@ class WebcamController extends Controller
 			'success' => true,
 			'file' => $filename
 		]);
+	}
+
+	public function getThumbnails()
+	{
+		$imageModel = new ImageModel(Database::getInstance());
+
+		$images = $imageModel->getImageForThumbnails($_SESSION['user']['id']);
+	
+		foreach ($images as $image)
+		{
+			echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
+			echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
+			echo '</a>';
+		}
 	}
 }

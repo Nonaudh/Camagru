@@ -1,9 +1,9 @@
 <h1>Welcome to Webcam</h1>
 <p>Hi <?= htmlspecialchars($_SESSION['user']['pseudo']) ?> !</p>
 
-<form id="fileInput" action="<?= BASE_URL ?>webcam/fileInput" method="post" enctype="multipart/form-data">
-	<label for="fileInput">Select a file:</label>
-	<input type="file" id="fileInput" name="fileInput" required>
+<form id="uploadForm" action="<?= BASE_URL ?>webcam/fileInput" method="post" enctype="multipart/form-data">
+	<label for="file">Select a file:</label>
+	<input type="file" id="file" name="fileInput" required>
 
 	<button type="submit">Submit File</button>
 </form>
@@ -16,15 +16,7 @@
 		<img id="previewSticker" class="overlay-sticker" src="" hidden>
 	</div>
 
-    <div id="thumbnails">
-		<?php foreach ($images as $image)
-		{
-			echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
-			echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
-			echo '</a>';
-		}
-		?>
-    </div>
+    <div id="thumbnails"></div>
 </div>
 
 <div id="stickers">

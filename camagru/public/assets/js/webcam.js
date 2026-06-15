@@ -10,7 +10,7 @@ function getConstraints()
 }
 
 navigator.mediaDevices.getUserMedia(getConstraints())
-.then(stream => { video.srcObject = stream; })
+.then(stream => { video.srcObject = stream; updateGallery()})
 .catch(err => { console.error(err); });
 
 captureButton.addEventListener('click', capturePhoto);
@@ -43,9 +43,8 @@ function capturePhoto() {
 		})
 	})
 	.then(res => res.text())
-	.then(data => console.log(data))
+	.then(() => updateGallery())
 	.catch(err => console.error(err));
-	alert("sent");
 }
 
 let selectedSticker = null;
@@ -61,4 +60,29 @@ document.querySelectorAll('.sticker').forEach(sticker => {
 			preview.hidden = false;
 		});
 	});
+
+document.getElementById('uploadForm').addEventListener('submit', function (e) {
+	e.preventDefault();
+
+	const form = e.target;
+	const formData = new FormData(form);
+
+	fetch(form.action, {
+		method: 'POST',
+		body: formData
+	})
+	.then(response => response.text())
+	.then(data => {console.log('Upload success'); updateGallery();})
+	.catch(error => {console.error('Upload error');});
+});
+
+function updateGallery()
+{
+	fetch('/gallery')
+	.then(response => response.text())
+	.then(html => {
+		document.getElementById('thumbnails').innerHTML = html;
+	});
+}
+
 	

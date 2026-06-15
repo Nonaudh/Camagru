@@ -40,6 +40,7 @@ $router->get('/logout', 'LogoutController@index');
 $router->get('/webcam', 'WebcamController@index')->middleware('auth');
 $router->post('/webcam/fileInput', 'WebcamController@handleFileInput')->middleware('auth');
 $router->post('/webcam/capture', 'WebcamController@capture')->middleware('auth');
+$router->get('/gallery', 'WebcamController@getThumbnails')->middleware('auth');
 
 $router->get('/error404', 'ErrorController@notFound');
 
