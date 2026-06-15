@@ -71,6 +71,6 @@ class ImageModel extends BaseModel
 
 		$image = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		return ($image ?: null);
+		return ($image ?? null);
 	}
 }

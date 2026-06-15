@@ -39,7 +39,7 @@ $router->get('/logout', 'LogoutController@index');
 
 $router->get('/webcam', 'WebcamController@index')->middleware('auth');
 $router->post('/webcam/fileInput', 'WebcamController@handleFileInput')->middleware('auth');
-$router->post('/webcam/capture', 'WebcamController@capture')->middleware('auth'); 
+$router->post('/webcam/capture', 'WebcamController@capture')->middleware('auth');
 
 $router->get('/error404', 'ErrorController@notFound');
 
@@ -49,5 +49,7 @@ $router->get('/reset', 'AuthController@reset');
 $router->post('/updatePassword', 'AuthController@updatePassword');
 
 $router->get('/image', 'ImageController@index');
+
+$router->post('/comment', 'CommentController@commentForm');
 
 $router->dispatch();

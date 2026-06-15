@@ -6,6 +6,7 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Helpers\Flash;
 use App\Models\ImageModel;
+use App\Models\CommentModel;
 use App\Core\Database;
 
 class ImageController extends Controller
@@ -19,12 +20,16 @@ class ImageController extends Controller
 
 		$image = $imageModel->getImageById($_GET['id']);
 
+		$commentModel = new CommentModel(Database::getInstance());
+
+		$comments = $commentModel->getCommentsOfAnImage($_GET['id']);
+
 		if (!$image)
 		{
 			header('Location: ' . BASE_URL . 'error404');
 			exit ;
 		}
 
-		View::render('image', compact('title', 'flash', 'image'));
+		View::render('image', compact('title', 'flash', 'image', 'comments'));
 	}
 }
