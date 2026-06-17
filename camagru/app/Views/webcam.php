@@ -22,7 +22,7 @@
 <div id="stickers">
 	<img class="sticker" src="/assets/stickers/crash.png">
 	<img class="sticker" src="/assets/stickers/wu-tang-logo.png">
-	<img class="sticker" src="/assets/stickers/cdm2.png">
+	<img class="sticker" src="/assets/stickers/cdm.png">
 </div>
 
 <button type="button" id="capture-btn">Take Photo</button>

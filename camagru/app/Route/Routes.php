@@ -28,6 +28,7 @@ $router->registerMiddleware('admin', function() {
 
 // routes
 $router->get('', 'HomeController@index');
+$router->get('/gallery', 'HomeController@getPictures');
 
 $router->get('/signin', 'SigninController@index');
 $router->post('/register', 'SigninController@register');
@@ -40,7 +41,7 @@ $router->get('/logout', 'LogoutController@index');
 $router->get('/webcam', 'WebcamController@index')->middleware('auth');
 $router->post('/webcam/fileInput', 'WebcamController@handleFileInput')->middleware('auth');
 $router->post('/webcam/capture', 'WebcamController@capture')->middleware('auth');
-$router->get('/gallery', 'WebcamController@getThumbnails')->middleware('auth');
+$router->get('/thumbnails', 'WebcamController@getThumbnails')->middleware('auth');
 
 $router->get('/error404', 'ErrorController@notFound');
 

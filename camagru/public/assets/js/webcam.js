@@ -23,8 +23,8 @@ function capturePhoto() {
 	const canvas = document.getElementById('canvas');
 	const context = canvas.getContext('2d');
 
-	canvas.width = video.videoWidth;  // 640
-	canvas.height = video.videoHeight; // 480
+	canvas.width = video.videoWidth;
+	canvas.height = video.videoHeight;
 
 	context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -78,7 +78,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
 
 function updateGallery()
 {
-	fetch('/gallery')
+	fetch('/thumbnails')
 	.then(response => response.text())
 	.then(html => {
 		document.getElementById('thumbnails').innerHTML = html;

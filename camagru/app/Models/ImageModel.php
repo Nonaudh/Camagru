@@ -43,8 +43,19 @@ class ImageModel extends BaseModel
 
 	public function getAllImages()
 	{
-		$sql = 'SELECT * FROM images ORDER BY created_at DESC';
+		$sql = 'SELECT * FROM images ORDER BY created_at DESC, id DESC';
 		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		$images = $stmt->fetchAll();
+
+		return ($images ?? null);
+	}
+
+	public function getImageLastId($last_id)
+	{
+		$sql = 'SELECT * FROM images WHERE id < :last_id ORDER BY created_at DESC, id DESC LIMIT 8';
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':last_id', $last_id, PDO::PARAM_INT);
 		$stmt->execute();
 		$images = $stmt->fetchAll();
 
@@ -53,7 +64,7 @@ class ImageModel extends BaseModel
 
 	public function getImageForThumbnails($user_id)
 	{
-		$sql = 'SELECT * FROM images WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 8';
+		$sql = 'SELECT * FROM images WHERE user_id = :user_id ORDER BY created_at DESC, id DESC LIMIT 8';
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 		$stmt->execute();

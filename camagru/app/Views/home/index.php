@@ -5,14 +5,18 @@
 </p>
 
 
-<div class="pictures-container">
+<div class="pictures-container" id="home-gallery">
 
-	<?php foreach ($images as $image)
+	<!-- <?php foreach ($images as $image)
 	{
 		echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
 		echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
 		echo '</a>';
 	}
-	?>
+	?> -->
 
 </div>
+
+<button type="button" id="load-pictures-btn">Load Photos</button>
+
+<script src="<?= BASE_URL ?>assets/js/infinite-pagination.js"></script>

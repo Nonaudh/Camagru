@@ -3,7 +3,7 @@
 namespace App\Core;
 
 use PDO;
-// use PDOException;
+use PDOException;
 
 class Database
 {

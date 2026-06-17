@@ -119,22 +119,22 @@ form label {
 	cursor: grab;
 }
 
-/* .pictures-container {
-	padding-left: 20%;
-	padding-right: 20%;
-} */
+.pictures-container {
+	margin-left: 20%;
+	margin-right: 20%;
+}
 
 .pictures-container img {
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	padding: 5px;
-	width: 200px;
+	width: 300px;
 	margin: 5px;
 }
 
 @media screen and (max-width: 600px) {
 	.pictures-container img {
-		width: 75px;
+		width: 100px;
 	}
 
 	.image-details img {

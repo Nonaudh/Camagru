@@ -15,10 +15,6 @@ class WebcamController extends Controller
 		$title = "Webcam - Camagraou";
 		$desc = "Webcam - Camagraou";
 
-		// $imageModel = new ImageModel(Database::getInstance());
-
-		// $images = $imageModel->getImageForThumbnails($_SESSION['user']['id']);
-
 		View::render('webcam', compact('title', 'desc'));
 	}
 
@@ -101,8 +97,7 @@ class WebcamController extends Controller
 		imagedestroy($sticker);
 
 		echo json_encode([
-			'success' => true,
-			'file' => $filename
+			'success' => true
 		]);
 	}
 

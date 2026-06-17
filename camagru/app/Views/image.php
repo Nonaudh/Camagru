@@ -19,8 +19,6 @@
 
 	<?php foreach ($comments as $comment)
 	{
-		// comments.content, comments.created_at, users.pseudo
-
 		echo '<div class="single-comment">';
 		echo '<p> ' . htmlspecialchars($comment['pseudo']) . '  ' . htmlspecialchars($comment['created_at']) . ' </p>';
 		echo '<p> ' . htmlspecialchars($comment['content']) . ' </p>';
