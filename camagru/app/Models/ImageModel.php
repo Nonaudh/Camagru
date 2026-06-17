@@ -51,9 +51,19 @@ class ImageModel extends BaseModel
 		return ($images ?? null);
 	}
 
-	public function getImageLastId($last_id)
+	public function getLatestImages()
 	{
-		$sql = 'SELECT * FROM images WHERE id < :last_id ORDER BY created_at DESC, id DESC LIMIT 8';
+		$sql = 'SELECT * FROM images ORDER BY created_at DESC, id DESC LIMIT 9';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		$images = $stmt->fetchAll();
+
+		return ($images ?? null);
+	}
+
+	public function getImagesLastId($last_id)
+	{
+		$sql = 'SELECT * FROM images WHERE id < :last_id ORDER BY created_at DESC, id DESC LIMIT 9';
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':last_id', $last_id, PDO::PARAM_INT);
 		$stmt->execute();

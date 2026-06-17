@@ -24,23 +24,24 @@ class HomeController extends Controller
 
 	public function getPictures()
 	{
-		if (!isset($_GET['last_id']))
-		{
-			echo json_encode([
-				'error' => true
-			]);
-			return ;
-		}
-
-		$last_id = $_GET['last_id'];
+		$last_id = $_GET['last_id'] ?? null;
 
 		$imageModel = new ImageModel(Database::getInstance());
 
-		$images = $imageModel->getImageLastId($last_id);
+		if (!$last_id)
+			$images = $imageModel->getLatestImages();
+		else
+			$images = $imageModel->getImagesLastId($last_id);
+
+		// var_dump($images);
+
+		$new_last_id = !empty($images) ? end($images)['id'] : $last_id;
+		$has_more = count($images) > 0;
 
 		echo json_encode([
 			'images' => $images,
-			'last_id' => $last_id + 8
+			'last_id' => $new_last_id,
+			'has_more' => $has_more
 		]);
 	}
 }
