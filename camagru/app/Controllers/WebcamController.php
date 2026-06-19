@@ -109,9 +109,20 @@ class WebcamController extends Controller
 	
 		foreach ($images as $image)
 		{
-			echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
+			// echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
 			echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
-			echo '</a>';
+			// echo '</a>';
 		}
+	}
+
+	public function deleteImage()
+	{
+		$data = json_decode(file_get_contents('php://input'), true);
+
+		$imgFilePath = str_replace('https://localhost:8443', '', $data['image']);
+
+		$imageModel = new ImageModel(Database::getInstance());
+
+		$imageModel->deleteImageByFilepath($imgFilePath);
 	}
 }

@@ -42,6 +42,7 @@ $router->get('/webcam', 'WebcamController@index')->middleware('auth');
 $router->post('/webcam/fileInput', 'WebcamController@handleFileInput')->middleware('auth');
 $router->post('/webcam/capture', 'WebcamController@capture')->middleware('auth');
 $router->get('/thumbnails', 'WebcamController@getThumbnails')->middleware('auth');
+$router->post('/deleteImage', 'WebcamController@deleteImage')->middleware('auth');
 
 $router->get('/error404', 'ErrorController@notFound');
 

@@ -53,7 +53,7 @@ class ImageModel extends BaseModel
 
 	public function getLatestImages()
 	{
-		$sql = 'SELECT * FROM images ORDER BY created_at DESC, id DESC LIMIT 9';
+		$sql = 'SELECT * FROM images ORDER BY created_at DESC, id DESC LIMIT 12';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$images = $stmt->fetchAll();
@@ -63,7 +63,7 @@ class ImageModel extends BaseModel
 
 	public function getImagesLastId($last_id)
 	{
-		$sql = 'SELECT * FROM images WHERE id < :last_id ORDER BY created_at DESC, id DESC LIMIT 9';
+		$sql = 'SELECT * FROM images WHERE id < :last_id ORDER BY created_at DESC, id DESC LIMIT 12';
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':last_id', $last_id, PDO::PARAM_INT);
 		$stmt->execute();
@@ -93,5 +93,13 @@ class ImageModel extends BaseModel
 		$image = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		return ($image ?? null);
+	}
+
+	public function deleteImageByFilepath($filepath)
+	{
+		$sql = "DELETE FROM images WHERE filepath = :filepath LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':filepath', $filepath);
+		$stmt->execute();
 	}
 }

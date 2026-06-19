@@ -3,9 +3,8 @@ const captureButton = document.getElementById('capture-btn');
 
 function getConstraints()
 {
-	if (window.matchMedia("(max-width: 600px)").matches) {
+	if (window.matchMedia("(max-width: 600px)").matches)
 		return { video: { width: 320, height: 240 } };
-	}
 	return { video: { width: 640, height: 480 } };
 }
 
@@ -53,6 +52,8 @@ document.querySelectorAll('.sticker').forEach(sticker => {
 	sticker.addEventListener('click', () => {
 		
 			selectedSticker = sticker.src;
+
+			captureButton.disabled = false;
 			
 			const preview = document.getElementById('previewSticker');
 			
@@ -85,4 +86,26 @@ function updateGallery()
 	});
 }
 
-	
+// document.querySelectorAll('.thumbnails').forEach(thumbnail => {
+// 	thumbnail.addEventListener('click', () => {
+// 		console.log("click");
+// 	});
+// });
+
+document.getElementById('thumbnails').addEventListener('click', (e) => {
+    if (e.target.tagName === 'IMG') {
+        fetch('/deleteImage', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			image: e.target.src
+		})
+	})
+	.then(res => res.text())
+	// .then(text => console.log(text))
+	.then(() => updateGallery())
+	.catch(err => console.error(err));
+    }
+});

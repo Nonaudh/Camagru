@@ -25,7 +25,7 @@
 	<img class="sticker" src="/assets/stickers/cdm.png">
 </div>
 
-<button type="button" id="capture-btn">Take Photo</button>
+<button type="button" id="capture-btn" disabled>Take Photo</button>
 
 <script src="<?= BASE_URL ?>assets/js/webcam.js"></script>
 <script src="<?= BASE_URL ?>assets/js/drag-stickers.js"></script>

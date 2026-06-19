@@ -81,6 +81,10 @@ button:hover {
 	color: white;
 }
 
+button:disabled:hover {
+	opacity: 50%;
+}
+
 form label {
 	font-size: 14px;
 	margin-top: 6px;
@@ -142,8 +146,8 @@ form label {
 	}
 
 	#camera-container {
-	width: 320px;
-	height: 240px;
+		width: 320px;
+		height: 240px;
 	}
 
 	#camera-container video, #camera-container canvas {
@@ -152,7 +156,8 @@ form label {
 	}
 
 	.overlay-sticker {
-		width: 20px;
+		transform: scale(0.5);
+        transform-origin: top left;
 	}
 
 	#thumbnails {
@@ -166,7 +171,7 @@ form label {
 
 #thumbnails {
 	width: 400px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     padding: 10px;
 	margin: 5px;
 }
@@ -181,6 +186,7 @@ form label {
 
 #thumbnails img:hover {
 	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+	opacity: 25%;
 }
 
 .single-comment {
