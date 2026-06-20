@@ -8,6 +8,16 @@
 	<?= '<img src= "' . htmlspecialchars($image['filepath']) . '">'; ?>
 </div>
 
+<div class="image-likes">
+	<form method="POST" action="<?= BASE_URL ?>like" id="like_image">
+		<input type="hidden" name="image_id" value="<?= htmlspecialchars($image['id']) ?>">
+		<button type="submit" <?= isset($_SESSION['user']) ? '' : 'disabled' ?>>Like</button>
+	</form>
+
+	<?= '<p> ' . htmlspecialchars($likes) . ' </p>' ?>
+
+</div>
+
 <div class="comments">
 	<?php if (isset($_SESSION['user'])) : ?>
 		<form method="POST" action="<?= BASE_URL ?>comment" id="post_comment">

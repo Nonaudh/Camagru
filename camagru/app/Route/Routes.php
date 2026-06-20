@@ -55,4 +55,6 @@ $router->get('/image', 'ImageController@index');
 
 $router->post('/comment', 'CommentController@commentForm');
 
+$router->post('/like', 'LikeController@likeImage');
+
 $router->dispatch();

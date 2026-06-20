@@ -19,12 +19,15 @@ document.addEventListener('mousemove', (e) => {
         return;
 
     const containerRect = container.getBoundingClientRect();
+	const stickerRect = sticker.getBoundingClientRect();
 
 	let x = e.clientX - containerRect.left - offsetX;
     let y = e.clientY - containerRect.top - offsetY;
 
-	x = Math.max(0, Math.min(x, container.clientWidth - sticker.offsetWidth));
-    y = Math.max(0, Math.min(y, container.clientHeight - sticker.offsetHeight));
+	// console.log(sticker.width , sticker.height);
+
+	x = Math.max(0, Math.min(x, container.clientWidth - stickerRect.width));
+    y = Math.max(0, Math.min(y, container.clientHeight - stickerRect.height));
 
 	const xPercent = x / containerRect.width;
     const yPercent = y / containerRect.height;
