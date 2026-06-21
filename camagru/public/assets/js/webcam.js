@@ -1,111 +1,128 @@
-const video = document.getElementById('video');
-const captureButton = document.getElementById('capture-btn');
+document.addEventListener("DOMContentLoaded", () => {
 
-function getConstraints()
-{
-	if (window.matchMedia("(max-width: 600px)").matches)
-		return { video: { width: 320, height: 240 } };
-	return { video: { width: 640, height: 480 } };
-}
+	const video = document.getElementById('video');
+	const captureButton = document.getElementById('capture-btn');
 
-navigator.mediaDevices.getUserMedia(getConstraints())
-.then(stream => { video.srcObject = stream; updateGallery()})
-.catch(err => { console.error(err); });
+	function getConstraints()
+	{
+		if (window.matchMedia("(max-width: 600px)").matches)
+			return { video: { width: 320, height: 240 } };
+		return { video: { width: 640, height: 480 } };
+	}
 
-captureButton.addEventListener('click', capturePhoto);
+	navigator.mediaDevices.getUserMedia(getConstraints())
+	.then(stream => { video.srcObject = stream; updateGallery()})
+	.catch(err => { console.error(err); });
 
-function capturePhoto() {
+	captureButton.addEventListener('click', capturePhoto);
 
-	if (!selectedSticker)
-		return ;
+	function capturePhoto() {
 
-	const canvas = document.getElementById('canvas');
-	const context = canvas.getContext('2d');
+		if (!selectedSticker)
+			return ;
 
-	canvas.width = video.videoWidth;
-	canvas.height = video.videoHeight;
+		const stickers = [];
 
-	context.drawImage(video, 0, 0, canvas.width, canvas.height);
+		const canvas = document.getElementById('canvas');
+		const context = canvas.getContext('2d');
 
-	const photoDataUrl = canvas.toDataURL('image/jpeg');
+		canvas.width = video.videoWidth;
+		canvas.height = video.videoHeight;
 
-	fetch('/webcam/capture', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			image: photoDataUrl,
-			sticker: selectedSticker,
-			x: sticker.dataset.x,
-			y: sticker.dataset.y
-		})
-	})
-	.then(res => res.text())
-	.then(() => updateGallery())
-	.catch(err => console.error(err));
-}
+		context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-let selectedSticker = null;
+		const photoDataUrl = canvas.toDataURL('image/jpeg');
 
-document.querySelectorAll('.sticker').forEach(sticker => {
-	sticker.addEventListener('click', () => {
-		
-			selectedSticker = sticker.src;
-
-			captureButton.disabled = false;
-			
-			const preview = document.getElementById('previewSticker');
-			
-			preview.src = selectedSticker;
-			preview.hidden = false;
+		document.querySelectorAll('.overlay-sticker').forEach(sticker => {
+			stickers.push({
+				src: sticker.src,
+				x: sticker.dataset.x,
+				y: sticker.dataset.y
+			});
 		});
-	});
 
-document.getElementById('uploadForm').addEventListener('submit', function (e) {
-	e.preventDefault();
+		// console.log(stickers);
 
-	const form = e.target;
-	const formData = new FormData(form);
-
-	fetch(form.action, {
-		method: 'POST',
-		body: formData
-	})
-	.then(response => response.text())
-	.then(data => {console.log('Upload success'); updateGallery();})
-	.catch(error => {console.error('Upload error');});
-});
-
-function updateGallery()
-{
-	fetch('/thumbnails')
-	.then(response => response.text())
-	.then(html => {
-		document.getElementById('thumbnails').innerHTML = html;
-	});
-}
-
-// document.querySelectorAll('.thumbnails').forEach(thumbnail => {
-// 	thumbnail.addEventListener('click', () => {
-// 		console.log("click");
-// 	});
-// });
-
-document.getElementById('thumbnails').addEventListener('click', (e) => {
-    if (e.target.tagName === 'IMG') {
-        fetch('/deleteImage', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			image: e.target.src
+		fetch('/webcam/capture', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				image: photoDataUrl,
+				stickers: stickers
+			})
 		})
-	})
-	.then(res => res.text())
-	// .then(text => console.log(text))
-	.then(() => updateGallery())
-	.catch(err => console.error(err));
-    }
+		.then(res => res.text())
+		// .then(text => console.log(text))
+		.then(() => updateGallery())
+		.catch(err => console.error(err));
+	}
+
+	let selectedSticker = null;
+
+	document.querySelectorAll('.sticker').forEach(sticker => {
+		sticker.addEventListener('click', () => {
+			
+				selectedSticker = sticker.src;
+
+				captureButton.disabled = false;
+
+				const img = document.createElement("img");
+				img.src = sticker.src;
+				img.className = "overlay-sticker";
+				img.dataset.x = 0;
+				img.dataset.y = 0;
+
+				container.appendChild(img);
+			});
+		});
+
+	document.getElementById('uploadForm').addEventListener('submit', function (e) {
+		e.preventDefault();
+
+		const form = e.target;
+		const formData = new FormData(form);
+
+		fetch(form.action, {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.text())
+		.then(data => {console.log('Upload success'); updateGallery();})
+		.catch(error => {console.error('Upload error');});
+	});
+
+	function updateGallery()
+	{
+		fetch('/thumbnails')
+		.then(response => response.text())
+		.then(html => {
+			document.getElementById('thumbnails').innerHTML = html;
+		});
+	}
+
+	// document.querySelectorAll('.thumbnails').forEach(thumbnail => {
+	// 	thumbnail.addEventListener('click', () => {
+	// 		console.log("click");
+	// 	});
+	// });
+
+	document.getElementById('thumbnails').addEventListener('click', (e) => {
+		if (e.target.tagName === 'IMG') {
+			fetch('/deleteImage', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				image: e.target.src
+			})
+		})
+		.then(res => res.text())
+		// .then(text => console.log(text))
+		.then(() => updateGallery())
+		.catch(err => console.error(err));
+		}
+	});
 });

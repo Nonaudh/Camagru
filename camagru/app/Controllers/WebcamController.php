@@ -62,6 +62,7 @@ class WebcamController extends Controller
 		$data = json_decode(file_get_contents('php://input'), true);
 
 		$img = $data['image'];
+		$stickers = $data['stickers'];
 
 		$img = str_replace('data:image/jpeg;base64,', '', $img);
 
@@ -78,9 +79,18 @@ class WebcamController extends Controller
 
 		$img = imagecreatefromjpeg($filename);
 
-		$sticker = imagecreatefrompng('/var/www/html/public/' . str_replace('https://localhost:8443/', '', $data['sticker']));
+		foreach ($stickers as $sticker)
+		{
+			$src = $sticker['src'];
+			$x = $sticker['x'];
+			$y = $sticker['y'];
 
-		imagecopy($img, $sticker, $data['x'] * imagesx($img), $data['y'] * imagesy($img), 0, 0, imagesx($sticker), imagesy($sticker));
+			$src = imagecreatefrompng('/var/www/html/public/' . str_replace('https://localhost:8443/', '', $src));
+	
+			imagecopy($img, $src, $x * imagesx($img), $y * imagesy($img), 0, 0, imagesx($src), imagesy($src));
+
+			imagedestroy($src);
+		}
 
 		imagejpeg($img, $filename, 90);
 
@@ -94,7 +104,7 @@ class WebcamController extends Controller
 
 
 		imagedestroy($img);
-		imagedestroy($sticker);
+		// imagedestroy($sticker);
 
 		echo json_encode([
 			'success' => true
