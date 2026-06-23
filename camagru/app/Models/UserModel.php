@@ -38,7 +38,7 @@ class UserModel extends BaseModel
 	{
 		$db = $this->db;
 
-		$sql = "INSERT INTO users ( email, password, pseudo, mail_notif, is_active, verification_token, reset_token_expiry) 
+		$sql = "INSERT INTO users (email, password, pseudo, mail_notif, is_active, verification_token, reset_token_expiry) 
 				VALUES (:email, :password, :pseudo, :mail_notif, :is_active, :verification_token, :reset_token_expiry)";
 
 		$stmt = $db->prepare($sql);
@@ -82,6 +82,18 @@ class UserModel extends BaseModel
 		return ($user ?: null);
 	}
 
+	public function findById($id)
+	{
+		$sql = "SELECT * FROM users WHERE id = :id LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':id', $id);
+		$stmt->execute();
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($user ?: null);
+	}
+
 	public function setResetToken($email, $token, $expiry)
 	{
 		$sql = "UPDATE users SET reset_token = :token, reset_token_expiry = :expiry WHERE email = :email";
@@ -113,6 +125,15 @@ class UserModel extends BaseModel
 		$stmt->execute();
 	}
 
+	function updatePseudo($id, $pseudo)
+	{
+		$sql = "UPDATE users SET pseudo = :pseudo WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':pseudo', $pseudo, PDO::PARAM_STR);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->execute();
+	}
+
 	public function findByTokenVerify($token)
 	{
 		$sql = "SELECT * FROM users WHERE verification_token = :token LIMIT 1";
@@ -131,5 +152,31 @@ class UserModel extends BaseModel
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
+	}
+
+	public function pseudoAlreadyTaken($id, $pseudo)
+	{
+		$sql = "SELECT * FROM users WHERE pseudo = :pseudo AND id != :id LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':pseudo', $pseudo, PDO::PARAM_STR);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->execute();
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($user ?: null);
+	}
+
+	public function emailAlreadyTaken($id, $email)
+	{
+		$sql = "SELECT * FROM users WHERE email = :email AND id != :id LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->execute();
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($user ?: null);
 	}
 }

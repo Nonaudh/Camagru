@@ -126,7 +126,7 @@ class AuthController extends Controller
 
 			$hash = password_hash($password, PASSWORD_DEFAULT);
 
-			$userModel->updatePassword($user['id'], $hash, "reset?token=" . $token);
+			$userModel->updatePassword($user['id'], $hash);
 
 			$this->flash_and_quit("success", "Password successfuly been changed.", "");
 		}

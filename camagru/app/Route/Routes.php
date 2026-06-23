@@ -42,8 +42,8 @@ $router->post('/register', 'SigninController@register');
 $router->get('/login', 'LoginController@index');
 $router->post('/login/post', 'LoginController@login');
 
-$router->get('/profile', 'ProfileController@index');
-$router->get('/profile/post', 'ProfileController@profile');
+$router->get('/profile', 'ProfileController@index')->middleware('auth');
+$router->post('/profile/post', 'ProfileController@profile')->middleware('auth');
 
 $router->get('/verify', 'VerifyController@index');
 

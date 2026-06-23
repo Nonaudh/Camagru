@@ -46,18 +46,18 @@ class SigninController extends Controller
 			
 			if (empty($pseudo))
 				$this->flash_and_quit("error", "Pseudo is needed.", "signin");
-			if (strlen($pseudo) < 4)
-				$this->flash_and_quit("error", "Pseudo need to have at least 4 caracters.", "signin");
+			if (strlen($pseudo) < 4 || strlen($pseudo) > 255)
+				$this->flash_and_quit("error", "Pseudo need to have between 4 and 255 caracters.", "signin");
 
 			if (empty($email))
 				$this->flash_and_quit("error", "Email is needed.", "signin");
-			elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+			elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 255)
 				$this->flash_and_quit("error", "Invalid Email.", "signin");
 
 			if (empty($password))
 				$this->flash_and_quit("error", "Password is needed.", "signin");
-			elseif (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $password))
-				$this->flash_and_quit("error", "Password need to have at least 8 caracters, an uppercase letter and a number.", "signin");
+			elseif (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,255}$/', $password))
+				$this->flash_and_quit("error", "Password need to have between 4 and 255 caracters, an uppercase letter and a number.", "signin");
 			
 			if ($password !== $confim)
 				$this->flash_and_quit("error", "Passwords does not matches.", "signin");

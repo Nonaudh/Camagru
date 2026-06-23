@@ -104,7 +104,6 @@ class WebcamController extends Controller
 
 
 		imagedestroy($img);
-		// imagedestroy($sticker);
 
 		echo json_encode([
 			'success' => true

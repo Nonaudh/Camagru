@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const video = document.getElementById('video');
 	const captureButton = document.getElementById('capture-btn');
 
+	updateGallery();
+	
 	function getConstraints()
 	{
 		if (window.matchMedia("(max-width: 600px)").matches)
@@ -10,15 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
 		return { video: { width: 640, height: 480 } };
 	}
 
+	let camera_ready = 0;
+
 	navigator.mediaDevices.getUserMedia(getConstraints())
-	.then(stream => { video.srcObject = stream; updateGallery()})
+	.then(stream => { video.srcObject = stream;  camera_ready = 1;})
 	.catch(err => { console.error(err); });
 
 	captureButton.addEventListener('click', capturePhoto);
 
 	function capturePhoto() {
 
-		if (!selectedSticker)
+		if (!selectedSticker || !camera_ready)
 			return ;
 
 		const stickers = [];
@@ -59,12 +63,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		.catch(err => console.error(err));
 	}
 
-	let selectedSticker = null;
+	let selectedSticker = 0;
 
 	document.querySelectorAll('.sticker').forEach(sticker => {
 		sticker.addEventListener('click', () => {
-			
-				selectedSticker = sticker.src;
+
+			if (selectedSticker > 50 || !camera_ready)
+					return ;
+
+				selectedSticker++;
 
 				captureButton.disabled = false;
 
