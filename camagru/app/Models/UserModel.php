@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Database;
 use PDO;
+use PDOException;
 
 class UserModel extends BaseModel
 {
@@ -37,8 +38,8 @@ class UserModel extends BaseModel
 	{
 		$db = $this->db;
 
-		$sql = "INSERT INTO users ( email, password, pseudo) 
-				VALUES (:email, :password, :pseudo)";
+		$sql = "INSERT INTO users ( email, password, pseudo, mail_notif, is_active, verification_token, reset_token_expiry) 
+				VALUES (:email, :password, :pseudo, :mail_notif, :is_active, :verification_token, :reset_token_expiry)";
 
 		$stmt = $db->prepare($sql);
 
@@ -50,7 +51,11 @@ class UserModel extends BaseModel
 			$stmt->execute([
 				'email' => $data['email'],
 				'password' => $data['password'],
-				'pseudo' => $data['pseudo']
+				'pseudo' => $data['pseudo'],
+				"mail_notif" => 1,
+				'is_active' => 0,
+				'verification_token' => $data['verification_token'],
+				'reset_token_expiry' => $data['reset_token_expiry']
 			]);
 
 			$data['id'] = $db->lastInsertId();
@@ -104,6 +109,26 @@ class UserModel extends BaseModel
 		$sql = "UPDATE users SET password = :hash, reset_token = NULL, reset_token_expiry = NULL WHERE id = :id";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':hash', $hash);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->execute();
+	}
+
+	public function findByTokenVerify($token)
+	{
+		$sql = "SELECT * FROM users WHERE verification_token = :token LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':token', $token, PDO::PARAM_STR);
+		$stmt->execute();
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    	return ($user ?: null);
+	}
+
+	public function activateAccount($id)
+	{
+		$sql = "UPDATE users SET is_active = 1, verification_token = NULL, reset_token_expiry = NULL WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}

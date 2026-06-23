@@ -63,7 +63,8 @@ class LoginController extends Controller
 				$_SESSION['user'] = [
 					'id' => $user['id'],
 					'email' => $user['email'],
-					'pseudo' => $user['pseudo']
+					'pseudo' => $user['pseudo'],
+					'is_active' => $user['is_active']
 				];
 				header('Location: ' . BASE_URL);
 				exit;

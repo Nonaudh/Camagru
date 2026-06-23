@@ -11,7 +11,7 @@
 <div class="image-likes">
 	<form method="POST" action="<?= BASE_URL ?>like" id="like_image">
 		<input type="hidden" name="image_id" value="<?= htmlspecialchars($image['id']) ?>">
-		<button type="submit" <?= isset($_SESSION['user']) ? '' : 'disabled' ?>>Like</button>
+		<button type="submit" <?= isset($_SESSION['user']) && $_SESSION['user']['is_active'] ? '' : 'disabled' ?>>Like</button>
 	</form>
 
 	<?= '<p> ' . htmlspecialchars($likes) . ' </p>' ?>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="comments">
-	<?php if (isset($_SESSION['user'])) : ?>
+	<?php if (isset($_SESSION['user']) && $_SESSION['user']['is_active']) : ?>
 		<form method="POST" action="<?= BASE_URL ?>comment" id="post_comment">
 			<input type="hidden" name="image_id" value="<?= htmlspecialchars($image['id']) ?>">
 			<textarea name="comment" required></textarea>

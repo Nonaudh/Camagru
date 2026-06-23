@@ -18,6 +18,5 @@
 </div>
 
 <div id="home-observer"></div>
-<!-- <button type="button" id="load-pictures-btn">Load Photos</button> -->
 
 <script src="<?= BASE_URL ?>assets/js/infinite-pagination.js"></script>

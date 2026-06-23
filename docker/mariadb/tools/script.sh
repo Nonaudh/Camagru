@@ -15,6 +15,9 @@ CREATE TABLE IF NOT EXISTS users (
 	password VARCHAR(255) NOT NULL,
 	pseudo VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	mail_notif BOOLEAN,
+	is_active BOOLEAN,
+	verification_token VARCHAR(255),
 	reset_token VARCHAR(255),
 	reset_token_expiry DATETIME
 );

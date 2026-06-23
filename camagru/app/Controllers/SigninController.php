@@ -37,7 +37,6 @@ class SigninController extends Controller
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
-			$errors = [];
 			$pseudo = trim($_POST['pseudo'] ?? '');
 			$email = trim($_POST['email'] ?? '');
 			$password = $_POST['password'] ?? '';
@@ -74,20 +73,28 @@ class SigninController extends Controller
 
 			$hachedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+			$verification_token = bin2hex(random_bytes(32));
+			$token_expiry = date('Y-m-d H:i:s', strtotime('+1 day'));
+
 			$data = $userModel->create([
 				'email' => $email,
 				'password' => $hachedPassword,
-				'pseudo' => $pseudo
-				// add other
+				'pseudo' => $pseudo,
+				'is_active' => 0,
+				'verification_token' => $verification_token,
+				'reset_token_expiry' => $token_expiry
 			]);
 
 			$_SESSION['user'] = [
 				'id' => $data['id'],
 				'pseudo' => $pseudo,
 				'email' => $email,
-				'role' => 'user'
+				'role' => 'user',
+				'is_active' => 0
 			];
 
+			if (DEVELOPMENT == true)
+				$this->flash_and_quit("success", "https://localhost:8443/verify?token=" . $verification_token, '');
 			$this->flash_and_quit("success", "Account successfully created !", '');
 		}
 	}

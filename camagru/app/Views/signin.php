@@ -15,7 +15,6 @@
 	<label for="password">Password :</label>
 	<input type="password" name="password" id="password" value="<?= $_SESSION['old']['password'] ?? '' ?>" required>
 
-	
 	<label for="confirm_password">Confirm Password :</label>
 	<input type="password" name="confirm_password" id="confirm_password" value="<?= $_SESSION['old']['confirm_password'] ?? '' ?>" required>
 

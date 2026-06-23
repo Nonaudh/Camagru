@@ -12,7 +12,7 @@ class LikeController extends Controller
 {
 	public function likeImage()
 	{
-		if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['image_id']) && isset($_SESSION['user']['id']))
+		if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['image_id']) && isset($_SESSION['user']) && $_SESSION['user']['is_active'])
 		{
 			$user_id = $_SESSION['user']['id'];
 			$image_id = $_POST['image_id'];

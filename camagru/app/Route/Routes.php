@@ -12,6 +12,12 @@ $router->registerMiddleware('auth', function() {
 		header('Location: /login');
 		return (false);
 	}
+	if ($_SESSION['user']['is_active'] == 0)
+	{
+		Flash::set('error', 'You must activate your account to access this page');
+		header('Location: /');
+		return (false);
+	}
 	return (true);
 });
 
@@ -35,6 +41,11 @@ $router->post('/register', 'SigninController@register');
 
 $router->get('/login', 'LoginController@index');
 $router->post('/login/post', 'LoginController@login');
+
+$router->get('/profile', 'ProfileController@index');
+$router->get('/profile/post', 'ProfileController@profile');
+
+$router->get('/verify', 'VerifyController@index');
 
 $router->get('/logout', 'LogoutController@index');
 

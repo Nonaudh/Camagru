@@ -48,9 +48,9 @@ class AuthController extends Controller
 
 		$userModel->setResetToken($email, $token, $expiry);
 
-		$message = $this->sendResetEmail($email, "https://localhost:8443/reset?token=" . $token);
+		// $message = $this->sendResetEmail($email, "https://localhost:8443/reset?token=" . $token);
 
-		$this->flash_and_quit("success", $message, "forgot");
+		$this->flash_and_quit("success", "https://localhost:8443/reset?token=" . $token, "forgot");
 
 		// $message = "Password reset mail was sent";
 

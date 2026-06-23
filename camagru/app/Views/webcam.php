@@ -12,8 +12,6 @@
 	<div id="camera-container">
 		<video id="video" autoplay></video>
 		<canvas id="canvas" hidden></canvas>
-
-		<!-- <img id="previewSticker" class="overlay-sticker" src="" hidden> -->
 	</div>
 
     <div id="thumbnails"></div>

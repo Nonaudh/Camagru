@@ -3,6 +3,7 @@
 	<nav>
 		<?php if (isset($_SESSION['user'])) : ?>
 			<a href="<?= BASE_URL ?>webcam">Webcam</a>
+			<a href="<?= BASE_URL ?>profile">Profile</a>
 			<a href="<?= BASE_URL ?>logout">Logout</a>
 		<?php else: ?>
 			<a href="<?= BASE_URL ?>signin">SignIn</a>

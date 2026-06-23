@@ -12,7 +12,7 @@ class CommentController extends Controller
 {
 	public function commentForm()
 	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_SESSION['user']) || !$_SESSION['user']['is_active'])
 			exit ;
 
 		$comment = trim($_POST['comment']);
