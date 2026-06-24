@@ -23,3 +23,8 @@
 	<input type="password" name="confirm_new_password" id="confirm_new_password" value="<?= $_SESSION['old']['confirm_new_password'] ?? '' ?>" required>
 	<button type="submit">Send modification</button>
 </form>
+
+<form action="<?= BASE_URL ?>profile/post" method="POST">
+	<input type="hidden" name="mail_notif" value=1>
+	<button type="submit"><?= (isset($_SESSION['user']) && $_SESSION['user']['mail_notif']) ? 'disable ' : 'enable ' ?> mail notification</button>
+</form>

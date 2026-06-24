@@ -46,7 +46,7 @@ class LoginController extends Controller
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
-			$email = trim($_POST['email'] ?? '');
+			$email = strtolower(trim($_POST['email'] ?? ''));
 			$password = trim($_POST['password'] ?? '');
 
 			if (empty($email) || empty($password))
@@ -64,7 +64,8 @@ class LoginController extends Controller
 					'id' => $user['id'],
 					'email' => $user['email'],
 					'pseudo' => $user['pseudo'],
-					'is_active' => $user['is_active']
+					'is_active' => $user['is_active'],
+					'mail_notif' => $user['mail_notif']
 				];
 				header('Location: ' . BASE_URL);
 				exit;

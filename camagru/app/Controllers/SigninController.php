@@ -38,7 +38,7 @@ class SigninController extends Controller
 		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
 			$pseudo = trim($_POST['pseudo'] ?? '');
-			$email = trim($_POST['email'] ?? '');
+			$email = strtolower(trim($_POST['email'] ?? ''));
 			$password = $_POST['password'] ?? '';
 			$confim = $_POST['confirm_password'] ?? '';
 
@@ -90,11 +90,13 @@ class SigninController extends Controller
 				'pseudo' => $pseudo,
 				'email' => $email,
 				'role' => 'user',
-				'is_active' => 0
+				'is_active' => 0,
+				'mail_notif' => $data['mail_notif']
 			];
 
 			if (DEVELOPMENT == true)
 				$this->flash_and_quit("success", "https://localhost:8443/verify?token=" . $verification_token, '');
+			// EMAIL
 			$this->flash_and_quit("success", "Account successfully created !", '');
 		}
 	}

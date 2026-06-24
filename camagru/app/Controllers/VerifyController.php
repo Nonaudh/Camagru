@@ -19,11 +19,11 @@ class VerifyController extends Controller
 
     public function index()
     {
-		if (isset($_SESSION['user']) && $_SESSION['user']['is_active'] == 1)
-		{
-			header('Location: ' . BASE_URL);
-			exit ;
-		}
+		// if (isset($_SESSION['user']) && $_SESSION['user']['is_active'] == 1)
+		// {
+		// 	header('Location: ' . BASE_URL);
+		// 	exit ;
+		// }
 
 		if (!isset($_GET['token']) || empty($_GET['token']))
 			$this->flash_and_quit('error', 'Invalid verification link', '');

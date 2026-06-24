@@ -104,7 +104,7 @@ class UserModel extends BaseModel
 		$stmt->execute();
 	}
 
-	function findByToken($token)
+	public function findByToken($token)
 	{
 		$sql = "SELECT * FROM users WHERE reset_token = :token LIMIT 1";
 		$stmt = $this->db->prepare($sql);
@@ -116,7 +116,7 @@ class UserModel extends BaseModel
 		return ($user ?: null);
 	}
 
-	function updatePassword($id, $hash)
+	public function updatePassword($id, $hash)
 	{
 		$sql = "UPDATE users SET password = :hash, reset_token = NULL, reset_token_expiry = NULL WHERE id = :id";
 		$stmt = $this->db->prepare($sql);
@@ -125,11 +125,31 @@ class UserModel extends BaseModel
 		$stmt->execute();
 	}
 
-	function updatePseudo($id, $pseudo)
+	public function updatePseudo($id, $pseudo)
 	{
 		$sql = "UPDATE users SET pseudo = :pseudo WHERE id = :id";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':pseudo', $pseudo, PDO::PARAM_STR);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->execute();
+	}
+
+	public function updateEmail($id, $email, $verification_token, $token_expiry)
+	{
+		$sql = "UPDATE users SET email = :email, is_active = 0, verification_token = :verification_token, reset_token_expiry = :token_expiry WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':email', $email);
+		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		$stmt->bindValue(':verification_token', $verification_token);
+		$stmt->bindValue(':token_expiry', $token_expiry);
+		$stmt->execute();
+	}
+
+	public function updateMailNotif($id, $mail_notif)
+	{
+		$sql = "UPDATE users SET mail_notif = :mail_notif WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':mail_notif', $mail_notif, PDO::PARAM_INT);
 		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 	}

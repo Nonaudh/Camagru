@@ -132,6 +132,8 @@ class WebcamController extends Controller
 
 		$imageModel = new ImageModel(Database::getInstance());
 
+		// check if image is owned by user !
+
 		$imageModel->deleteImageByFilepath($imgFilePath);
 	}
 }

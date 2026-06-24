@@ -27,6 +27,7 @@ class CommentController extends Controller
 				'content' => $comment
 			]);
 		}
+		// Mail
 		header('Location: ' . BASE_URL . 'image?id=' . $_POST['image_id']);
 		exit ;
 	}
