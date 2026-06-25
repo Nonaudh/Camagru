@@ -171,6 +171,8 @@ form label {
 
 #thumbnails {
 	width: 400px;
+	height: 480px;
+  	overflow-y: scroll;
     /* border: 1px solid #ccc; */
     padding: 10px;
 	margin: 5px;

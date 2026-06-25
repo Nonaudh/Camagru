@@ -74,7 +74,7 @@ class ImageModel extends BaseModel
 
 	public function getImageForThumbnails($user_id)
 	{
-		$sql = 'SELECT * FROM images WHERE user_id = :user_id ORDER BY created_at DESC, id DESC LIMIT 8';
+		$sql = 'SELECT * FROM images WHERE user_id = :user_id ORDER BY created_at DESC, id DESC';
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 		$stmt->execute();

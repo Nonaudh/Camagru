@@ -29,12 +29,17 @@ class ImageController extends Controller
 
 		$likes = $likeModel->getLikes($_GET['id']);
 
+		$user_has_liked = 0;
+
+		if (isset($_SESSION['user']) && $_SESSION['user']['is_active'])
+			$user_has_liked = $likeModel->alreadyLike($_SESSION['user']['id'], $_GET['id']);
+
 		if (!$image)
 		{
 			header('Location: ' . BASE_URL . 'error404');
 			exit ;
 		}
 
-		View::render('image', compact('title', 'flash', 'image', 'comments', 'likes'));
+		View::render('image', compact('title', 'flash', 'image', 'comments', 'likes', 'user_has_liked'));
 	}
 }

@@ -91,7 +91,7 @@ class SigninController extends Controller
 				'email' => $email,
 				'role' => 'user',
 				'is_active' => 0,
-				'mail_notif' => $data['mail_notif']
+				'mail_notif' => 1
 			];
 
 			if (DEVELOPMENT == true)

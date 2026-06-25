@@ -11,7 +11,7 @@
 <div class="image-likes">
 	<form method="POST" action="<?= BASE_URL ?>like" id="like_image">
 		<input type="hidden" name="image_id" value="<?= htmlspecialchars($image['id']) ?>">
-		<button type="submit" <?= isset($_SESSION['user']) && $_SESSION['user']['is_active'] ? '' : 'disabled' ?>>Like</button>
+		<button type="submit" <?= isset($_SESSION['user']) && $_SESSION['user']['is_active'] ? '' : 'disabled' ?>> <?= $user_has_liked ? 'Un' : '' ?>Like</button>
 	</form>
 
 	<?= '<p> ' . htmlspecialchars($likes) . ' </p>' ?>
