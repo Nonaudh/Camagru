@@ -75,7 +75,7 @@ class WebcamController extends Controller
 		$filepath = '/images/' . $id . '.jpeg';
 
 		if (!file_put_contents($filename, $binary))
-			die ('Error');
+			die ('Error : file_put_contents');
 
 		$img = imagecreatefromjpeg($filename);
 

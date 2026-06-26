@@ -19,6 +19,8 @@ class HomeController extends Controller
 
 		// $images = $imageModel->getAllImages();
 
+		// phpinfo();
+
 		View::render('home/index', compact('title', 'flash'));
 	}
 

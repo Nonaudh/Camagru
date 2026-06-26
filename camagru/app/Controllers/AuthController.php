@@ -8,6 +8,8 @@ use App\Models\UserModel;
 use App\Core\Database;
 use App\Helpers\Flash;
 
+use Exception;
+
 class AuthController extends Controller
 {
 	public function forgotForm()
@@ -48,9 +50,9 @@ class AuthController extends Controller
 
 		$userModel->setResetToken($email, $token, $expiry);
 
-		// $message = $this->sendResetEmail($email, "https://localhost:8443/reset?token=" . $token);
+		$message = $this->sendResetEmail($email, "https://localhost:8443/reset?token=" . $token);
 
-		$this->flash_and_quit("success", "https://localhost:8443/reset?token=" . $token, "forgot");
+		$this->flash_and_quit("success", "https://localhost:8443/reset?token=" . $token . "  " . $message, "forgot");
 
 		// $message = "Password reset mail was sent";
 
@@ -61,11 +63,14 @@ class AuthController extends Controller
 	{
 		$subject = "Reset your email.";
 		$headers = 'From: camagru@42.fr' . "\r\n" .
-           'Reply-To: camagru@42.fr' . "\r\n" .
-           'X-Mailer: PHP/' . phpversion();
+			'Reply-To: camagru@42.fr' . "\r\n" .
+			'X-Mailer: PHP/' . phpversion() . "\r\n" .
+			'MIME-Version: 1.0' . "\r\n" .
+			'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 		$sent = mail($email, $subject, $token, $headers);
+		if (!$sent)
+			throw new Exception('mail error');
 		print_r($sent);
-		// return ("https://localhost:8443/reset?token=" . $token);
 		return ($sent);
 	}
 
