@@ -31,7 +31,7 @@ class ImageController extends Controller
 
 		$user_has_liked = 0;
 
-		if (isset($_SESSION['user']) && $_SESSION['user']['is_active'])
+		if ($image && isset($_SESSION['user']) && $_SESSION['user']['is_active'])
 			$user_has_liked = $likeModel->alreadyLike($_SESSION['user']['id'], $_GET['id']);
 
 		if (!$image)

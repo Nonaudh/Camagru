@@ -18,13 +18,6 @@ class WebcamController extends Controller
 		View::render('webcam', compact('title', 'desc'));
 	}
 
-	private function debug($var)
-	{
-		echo '<pre>';
-		print_r($var);
-		echo '</pre>';
-	}
-
 	public function handleFileInput()
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
@@ -36,21 +29,30 @@ class WebcamController extends Controller
 			$file_name = $_FILES['fileInput']['name'];
 			$folder = '/var/www/html/public/images/';
 
+			$extension = pathinfo($file_name, PATHINFO_EXTENSION);
+			$allowedExtensions = ['png', 'jpeg', 'jpg'];
+
+			if (!in_array($extension, $allowedExtensions))
+			{
+				echo json_encode(['success' => false]);
+				return ;
+			}
+
+			$file_name = uniqid() . '.' . $extension;
+
 			if (!move_uploaded_file($tmp_name, $folder . $file_name))
-				die ('Error');
+			{
+				echo json_encode(['success' => false]);
+				return ;
+			}
 
 			$imageModel = new ImageModel(Database::getInstance());
 
 			$imageModel->create([
 				'user_id' => $_SESSION['user']['id'],
-				'filename' => $tmp_name,
 				'filepath' => '/images/' . $file_name
 			]);
-
-			echo json_encode([
-				'success' => true,
-				'file' => $file_name
-			]);
+			echo json_encode(['success' => true]);
 		}
 	}
 
@@ -98,7 +100,6 @@ class WebcamController extends Controller
 
 		$imageModel->create([
 			'user_id' => $_SESSION['user']['id'],
-			'filename' => $filename,
 			'filepath' => $filepath
 		]);
 
@@ -132,8 +133,12 @@ class WebcamController extends Controller
 
 		$imageModel = new ImageModel(Database::getInstance());
 
-		// check if image is owned by user !
+		$image = $imageModel->getImageByFilepath($imgFilePath);
 
-		$imageModel->deleteImageByFilepath($imgFilePath);
+		if ($image && isset($_SESSION['user']) && $image['user_id'] == $_SESSION['user']['id'])
+		{
+			unlink('/var/www/html/public' . $image['filepath']);
+			$imageModel->deleteImageById($image['id']);
+		}
 	}
 }

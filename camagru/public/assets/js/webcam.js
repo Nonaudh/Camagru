@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			body: formData
 		})
 		.then(response => response.text())
-		.then(data => {console.log('Upload success'); updateGallery();})
+		.then(data => {console.log(data); updateGallery();})
 		.catch(error => {console.error('Upload error');});
 	});
 

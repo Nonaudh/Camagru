@@ -13,8 +13,8 @@ class ImageModel extends BaseModel
 	{
 		$db = $this->db;
 
-		$sql = "INSERT INTO images ( user_id, filename, filepath) 
-				VALUES (:user_id, :filename, :filepath)";
+		$sql = "INSERT INTO images ( user_id, filepath) 
+				VALUES (:user_id, :filepath)";
 
 		$stmt = $db->prepare($sql);
 
@@ -25,7 +25,6 @@ class ImageModel extends BaseModel
 		{
 			$stmt->execute([
 				'user_id' => $data['user_id'],
-				'filename' => $data['filename'],
 				'filepath' => $data['filepath']
 			]);
 
@@ -95,11 +94,23 @@ class ImageModel extends BaseModel
 		return ($image ?? null);
 	}
 
-	public function deleteImageByFilepath($filepath)
+	public function getImageByFilepath($filepath)
 	{
-		$sql = "DELETE FROM images WHERE filepath = :filepath LIMIT 1";
+		$sql = "SELECT * FROM images WHERE filepath = :filepath LIMIT 1";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(':filepath', $filepath);
+		$stmt->execute();
+
+		$image = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($image ?? null);
+	}
+
+	public function deleteImageById($id)
+	{
+		$sql = "DELETE FROM images WHERE id = :id LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':id', $id);
 		$stmt->execute();
 	}
 }
