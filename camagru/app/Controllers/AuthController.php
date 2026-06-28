@@ -69,8 +69,10 @@ class AuthController extends Controller
 			'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 		$sent = mail($email, $subject, $token, $headers);
 		if (!$sent)
-			throw new Exception('mail error');
-		print_r($sent);
+		 {
+			$error = error_get_last();
+			throw new Exception($error['message'] ?? 'mail() failed');
+		}
 		return ($sent);
 	}
 
