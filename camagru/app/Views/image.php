@@ -14,7 +14,7 @@
 		<button type="submit" <?= isset($_SESSION['user']) && $_SESSION['user']['is_active'] ? '' : 'disabled' ?>> <?= $user_has_liked ? 'Un' : '' ?>Like</button>
 	</form>
 
-	<?= '<p> ' . htmlspecialchars($likes) . ' </p>' ?>
+	<?= '<p> ' . htmlspecialchars($NumberOflikes) . ' </p>' ?>
 
 </div>
 

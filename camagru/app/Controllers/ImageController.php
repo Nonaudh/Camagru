@@ -27,7 +27,7 @@ class ImageController extends Controller
 
 		$likeModel = new LikeModel(Database::getInstance());
 
-		$likes = $likeModel->getLikes($_GET['id']);
+		$NumberOflikes = $likeModel->getLikes($_GET['id']);
 
 		$user_has_liked = 0;
 
@@ -40,6 +40,6 @@ class ImageController extends Controller
 			exit ;
 		}
 
-		View::render('image', compact('title', 'flash', 'image', 'comments', 'likes', 'user_has_liked'));
+		View::render('image', compact('title', 'flash', 'image', 'comments', 'NumberOflikes', 'user_has_liked'));
 	}
 }

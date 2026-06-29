@@ -7,6 +7,7 @@ use App\Core\View;
 use App\Models\UserModel;
 use App\Core\Database;
 use App\Helpers\Flash;
+use App\Helpers\Mail;
 
 use Exception;
 
@@ -50,32 +51,18 @@ class AuthController extends Controller
 
 		$userModel->setResetToken($email, $token, $expiry);
 
-		$message = $this->sendResetEmail($email, "https://localhost:8443/reset?token=" . $token);
-
-		// $this->sendResetLink($email, $user['pseudo'], $token);
-
-		$this->flash_and_quit("success", "https://localhost:8443/reset?token=" . $token . "  " . $message, "forgot");
-
-		// $message = "Password reset mail was sent";
-
-		// View::render('auth/forgot', compact('title', 'message'));
+		if ($this->sendResetEmail($email, $token))
+			$this->flash_and_quit("success", "Password reset mail was sent", "forgot");
+		else
+			$this->flash_and_quit("error", "Error while sending password reset mail", "forgot");
 	}
 
 	public function sendResetEmail($email, $token)
 	{
 		$subject = "Reset your email.";
-		$headers = 'From: camagru@42.fr' . "\r\n" .
-			'Reply-To: camagru@42.fr' . "\r\n" .
-			'X-Mailer: PHP/' . phpversion() . "\r\n" .
-			'MIME-Version: 1.0' . "\r\n" .
-			'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$sent = mail($email, $subject, $token, $headers);
-		if (!$sent)
-		 {
-			$error = error_get_last();
-			throw new Exception($error['message'] ?? 'mail() failed');
-		}
-		return ($sent);
+		$token = "https://localhost:8443/reset?token=" . $token;
+		
+		return (Mail::send($email, $subject, $token));
 	}
 
 	function reset()

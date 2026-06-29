@@ -7,6 +7,7 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Core\Database;
 use App\Helpers\Flash;
+use App\Helpers\Mail;
 
 class ProfileController extends Controller
 {
@@ -19,8 +20,6 @@ class ProfileController extends Controller
 		$desc = "Profile - Camagraou";
 
 		$flash = Flash::get();
-
-		phpinfo();
 
 		View::render('profile', compact('title', 'desc', 'flash'));
 	}
@@ -49,6 +48,16 @@ class ProfileController extends Controller
 		$this->flash_and_quit("success", "Your username has been successfully changed", "profile");
 	}
 
+	private function sendVerificationEmail($email, $pseudo, $verification_token)
+	{
+		$subject = "Verify your Camagraou account";
+		$message = "Hi $pseudo\r\n" .
+			"Click on the link to verify your Camagraou account\r\n" . 
+			"https://localhost:8443/verify?token=" . $verification_token . "\r\n";
+
+		return (Mail::send($email, $subject, $message));
+	}
+
 	private function actualizeEmail($email, $user, $userModel)
 	{
 		if (empty($email))
@@ -66,10 +75,10 @@ class ProfileController extends Controller
 		$userModel->updateEmail($user['id'], $email, $verification_token, $token_expiry);
 		unset($_SESSION['old']);
 		$_SESSION['user']['is_active'] = 0;
-		if (DEVELOPMENT == true)
-			$this->flash_and_quit("success", "https://localhost:8443/verify?token=" . $verification_token, "");
-		// EMAIL
-		$this->flash_and_quit("success", "A email was sent to you to activate your account", "");
+		
+		if ($this->sendVerificationEmail($email, $user['pseudo'], $verification_token));
+			$this->flash_and_quit("success", "A email was sent to you to verify your email", "");
+		$this->flash_and_quit("error", "Error while sending email", "");
 	}
 
 	private function actualizePassword($password, $confim, $user, $userModel)

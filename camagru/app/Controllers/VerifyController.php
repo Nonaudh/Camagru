@@ -41,6 +41,6 @@ class VerifyController extends Controller
 
 		$_SESSION['user']['is_active'] = 1;
 
-		$this->flash_and_quit('success', 'Account successfully activate !', '');
+		$this->flash_and_quit('success', 'Account has been successfully activated', '');
 	}
 }

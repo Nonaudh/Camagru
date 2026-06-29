@@ -17,10 +17,6 @@ class HomeController extends Controller
 
 		$imageModel = new ImageModel(Database::getInstance());
 
-		// $images = $imageModel->getAllImages();
-
-		// phpinfo();
-
 		View::render('home/index', compact('title', 'flash'));
 	}
 
@@ -34,8 +30,6 @@ class HomeController extends Controller
 			$images = $imageModel->getLatestImages();
 		else
 			$images = $imageModel->getImagesLastId($last_id);
-
-		// var_dump($images);
 
 		$new_last_id = !empty($images) ? end($images)['id'] : $last_id;
 		$has_more = count($images) > 0;

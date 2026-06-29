@@ -7,6 +7,7 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Core\Database;
 use App\Helpers\Flash;
+use App\Helpers\Mail;
 
 class SigninController extends Controller
 {
@@ -32,72 +33,85 @@ class SigninController extends Controller
 
 	public function register()
 	{
-		if (isset($_SESSION['user']))
-			exit;
+		if (isset($_SESSION['user']) || $_SERVER['REQUEST_METHOD'] !== 'POST')
+			header('Location: ' . BASE_URL);
 
-		if ($_SERVER['REQUEST_METHOD'] === 'POST')
-		{
-			$pseudo = trim($_POST['pseudo'] ?? '');
-			$email = strtolower(trim($_POST['email'] ?? ''));
-			$password = $_POST['password'] ?? '';
-			$confim = $_POST['confirm_password'] ?? '';
+		$pseudo = trim($_POST['pseudo'] ?? '');
+		$email = strtolower(trim($_POST['email'] ?? ''));
+		$password = $_POST['password'] ?? '';
+		$confim = $_POST['confirm_password'] ?? '';
 
-			$_SESSION['old'] = $_POST;
-			
-			if (empty($pseudo))
-				$this->flash_and_quit("error", "Pseudo is needed.", "signin");
-			if (strlen($pseudo) < 4 || strlen($pseudo) > 255)
-				$this->flash_and_quit("error", "Pseudo need to have between 4 and 255 caracters.", "signin");
+		$_SESSION['old'] = $_POST;
+		
+		if (empty($pseudo))
+			$this->flash_and_quit("error", "Pseudo is needed.", "signin");
+		if (strlen($pseudo) < 4 || strlen($pseudo) > 255)
+			$this->flash_and_quit("error", "Pseudo need to have between 4 and 255 caracters.", "signin");
 
-			if (empty($email))
-				$this->flash_and_quit("error", "Email is needed.", "signin");
-			elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 255)
-				$this->flash_and_quit("error", "Invalid Email.", "signin");
+		if (empty($email))
+			$this->flash_and_quit("error", "Email is needed.", "signin");
+		elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 255)
+			$this->flash_and_quit("error", "Invalid Email.", "signin");
 
-			if (empty($password))
-				$this->flash_and_quit("error", "Password is needed.", "signin");
-			elseif (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,255}$/', $password))
-				$this->flash_and_quit("error", "Password need to have between 4 and 255 caracters, an uppercase letter and a number.", "signin");
-			
-			if ($password !== $confim)
-				$this->flash_and_quit("error", "Passwords does not matches.", "signin");
+		if (empty($password))
+			$this->flash_and_quit("error", "Password is needed.", "signin");
+		elseif (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,255}$/', $password))
+			$this->flash_and_quit("error", "Password need to have between 4 and 255 caracters, an uppercase letter and a number.", "signin");
+		
+		if ($password !== $confim)
+			$this->flash_and_quit("error", "Passwords does not matches.", "signin");
 
-			$userModel = new UserModel(Database::getInstance());
+		$userModel = new UserModel(Database::getInstance());
 
-			$existCheck = $userModel->checkExistingEmailAndPseudo(strtolower($email), $pseudo);
+		$existCheck = $userModel->checkExistingEmailAndPseudo(strtolower($email), $pseudo);
 
-			if ($existCheck['pseudo'])
-				$this->flash_and_quit("error", "Pseudo already exist.", "signin");
-			if ($existCheck['email'])
-				$this->flash_and_quit("error", "Email already exist.", "signin");
+		if ($existCheck['pseudo'])
+			$this->flash_and_quit("error", "Pseudo already exist.", "signin");
+		if ($existCheck['email'])
+			$this->flash_and_quit("error", "Email already exist.", "signin");
 
-			$hachedPassword = password_hash($password, PASSWORD_DEFAULT);
+		$hachedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-			$verification_token = bin2hex(random_bytes(32));
-			$token_expiry = date('Y-m-d H:i:s', strtotime('+1 day'));
+		$verification_token = bin2hex(random_bytes(32));
+		$token_expiry = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-			$data = $userModel->create([
-				'email' => $email,
-				'password' => $hachedPassword,
-				'pseudo' => $pseudo,
-				'is_active' => 0,
-				'verification_token' => $verification_token,
-				'reset_token_expiry' => $token_expiry
-			]);
+		$data = $userModel->create([
+			'email' => $email,
+			'password' => $hachedPassword,
+			'pseudo' => $pseudo,
+			'is_active' => 0,
+			'verification_token' => $verification_token,
+			'reset_token_expiry' => $token_expiry
+		]);
 
-			$_SESSION['user'] = [
-				'id' => $data['id'],
-				'pseudo' => $pseudo,
-				'email' => $email,
-				'role' => 'user',
-				'is_active' => 0,
-				'mail_notif' => 1
-			];
+		$_SESSION['user'] = [
+			'id' => $data['id'],
+			'pseudo' => $pseudo,
+			'email' => $email,
+			'role' => 'user',
+			'is_active' => 0,
+			'mail_notif' => 1
+		];
 
-			if (DEVELOPMENT == true)
-				$this->flash_and_quit("success", "https://localhost:8443/verify?token=" . $verification_token, '');
-			// EMAIL
-			$this->flash_and_quit("success", "Account successfully created !", '');
-		}
+		if ($this->sendVerificationEmail($email, $pseudo, $verification_token))
+			$this->flash_and_quit("success", "Account successfully created, please verify it", '');
+
+		$this->flash_and_quit("error", "Error while sending email", '');
+
+		// if (DEVELOPMENT == true)
+		// 	$this->flash_and_quit("success", "https://localhost:8443/verify?token=" . $verification_token, '');
+		// // EMAIL
+		// $this->flash_and_quit("success", "Account successfully created !", '');
 	}
+
+	private function sendVerificationEmail($email, $pseudo, $verification_token)
+	{
+		$subject = "Verify your Camagraou account";
+		$message = "Hi $pseudo\r\n" .
+			"Click on the link to verify your Camagraou account\r\n" . 
+			"https://localhost:8443/verify?token=" . $verification_token . "\r\n";
+
+		return (Mail::send($email, $subject, $message));
+	}
+
 }

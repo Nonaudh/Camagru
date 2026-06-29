@@ -42,8 +42,6 @@ class LoginController extends Controller
 			exit ;
 		}
 
-		$_SESSION['login_error'] = '';
-
 		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
 			$email = strtolower(trim($_POST['email'] ?? ''));
