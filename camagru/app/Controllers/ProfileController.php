@@ -20,6 +20,8 @@ class ProfileController extends Controller
 
 		$flash = Flash::get();
 
+		phpinfo();
+
 		View::render('profile', compact('title', 'desc', 'flash'));
 	}
 

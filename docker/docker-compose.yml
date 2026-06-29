@@ -24,6 +24,7 @@ services:
     env_file: .env
     depends_on:
       - mariadb
+      - mailhog
     volumes:
       - php_data:/var/www/html
       - images:/var/www/html/public/images
@@ -37,6 +38,16 @@ services:
     env_file: .env
     volumes:
       - database:/var/lib/mysql
+    networks:
+      inception:
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    restart: always
+    ports:
+      - "8025:8025"
+      - "1025:1025"
     networks:
       inception:
 

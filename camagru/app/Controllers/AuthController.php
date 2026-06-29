@@ -52,6 +52,8 @@ class AuthController extends Controller
 
 		$message = $this->sendResetEmail($email, "https://localhost:8443/reset?token=" . $token);
 
+		// $this->sendResetLink($email, $user['pseudo'], $token);
+
 		$this->flash_and_quit("success", "https://localhost:8443/reset?token=" . $token . "  " . $message, "forgot");
 
 		// $message = "Password reset mail was sent";
