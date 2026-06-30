@@ -6,8 +6,8 @@
 
 <form id="login-form" action="<?= BASE_URL ?>login/post" method="post">
 
-	<label for="email">Email :</label>
-	<input type="email" name="email" id="email" required>
+	<label for="pseudo">Pseudo :</label>
+	<input type="pseudo" name="pseudo" id="pseudo" required>
 
 	<label for="password">Password :</label>
 	<input type="password" name="password" id="password" required>

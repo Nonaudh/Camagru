@@ -82,6 +82,18 @@ class UserModel extends BaseModel
 		return ($user ?: null);
 	}
 
+	public function findByPseudo(string $pseudo) : ?array
+	{
+		$sql = "SELECT * FROM users WHERE pseudo = :pseudo LIMIT 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(':pseudo', $pseudo, PDO::PARAM_STR);
+		$stmt->execute();
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return ($user ?: null);
+	}
+
 	public function findById($id)
 	{
 		$sql = "SELECT * FROM users WHERE id = :id LIMIT 1";

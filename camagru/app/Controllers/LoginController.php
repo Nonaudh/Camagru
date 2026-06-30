@@ -44,17 +44,14 @@ class LoginController extends Controller
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
-			$email = strtolower(trim($_POST['email'] ?? ''));
-			$password = trim($_POST['password'] ?? '');
+			$pseudo = trim($_POST['pseudo'] ?? '');
+			$password = $_POST['password'] ?? '';
 
-			if (empty($email) || empty($password))
-				$this->error("email and password required !");
-
-			if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-				$this->error("Invalid e-mail address.");
+			if (empty($pseudo) || empty($password))
+				$this->error("pseudo and password required !");
 
 			$userModel = new UserModel(Database::getInstance());
-			$user = $userModel->findByEmail($email);
+			$user = $userModel->findByPseudo($pseudo);
 
 			if ($user && password_verify($password, $user['password']))
 			{

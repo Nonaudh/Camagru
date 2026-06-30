@@ -90,13 +90,17 @@ form label {
 	margin-top: 6px;
 }
 
+.image-details img {
+	height: 480px;
+}
+
 .sticker {
     height: 100px;
 }
 
 #webcam-container {
 	display: flex;
-	justify-content: center;
+	justify-content: center; 
     margin: 0 auto;
 	align-items: flex-start;
 	gap: 20px; 
@@ -108,7 +112,6 @@ form label {
 	height: 480px;
 	margin-top: 14px;
 	margin-bottom: 14px;
-	/* margin-left: 20%; */
 }
 
 #camera-container video, #camera-container canvas {
@@ -134,35 +137,6 @@ form label {
 	padding: 5px;
 	width: 300px;
 	margin: 5px;
-}
-
-@media screen and (max-width: 600px) {
-	.pictures-container img {
-		width: 100px;
-	}
-
-	.image-details img {
-		width: 300px;
-	}
-
-	#camera-container {
-		width: 320px;
-		height: 240px;
-	}
-
-	#camera-container video, #camera-container canvas {
-		width: 320px;
-		height: 240px;
-	}
-
-	.overlay-sticker {
-		transform: scale(0.5);
-        transform-origin: top left;
-	}
-
-	#thumbnails {
-		display: none;
-	}
 }
 
 .pictures-container img:hover {
@@ -191,10 +165,103 @@ form label {
 	opacity: 25%;
 }
 
+.comments {
+	display: grid;
+	place-items: center;
+}
+
 .single-comment {
 	border: 2px solid #ddd;
 	border-radius: 4px;
 	padding: 5px;
 	margin: 5px 10%;
 	backdrop-filter: invert(5%);
+	width: 800px;
+	overflow-y: auto;
+}
+
+@media screen and (max-width: 1200px) {
+
+	.image-details img {
+		width: 300px;
+	}
+
+	#camera-container {
+		width: 320px;
+		height: 240px;
+	}
+
+	#camera-container video, #camera-container canvas {
+		width: 320px;
+		height: 240px;
+	}
+
+	.overlay-sticker {
+		transform: scale(0.5);
+        transform-origin: top left;
+	}
+
+	#thumbnails {
+		width: 100px;
+		height: 240px;
+	}
+
+	#thumbnails img {
+		width: 80px;
+	}
+
+	.sticker {
+		height: 75px;
+	}
+
+	.image-details img {
+		height: 240px;
+	}
+
+
+	.single-comment {
+		width: 400px;
+	}
+
+}
+
+@media screen and (max-width: 500px) {
+
+	.pictures-container img {
+		width: 150px;
+	}
+
+
+	#camera-container {
+		width: 160px;
+		height: 120px;
+	}
+
+	#camera-container video, #camera-container canvas {
+		width: 160px;
+		height: 120px;
+	}
+
+	.overlay-sticker {
+		transform: scale(0.25);
+        transform-origin: top left;
+	}
+
+	#thumbnails {
+		width: 75px;
+		height: 120px;
+	}
+
+	#thumbnails img {
+		width: 40px;
+	}
+
+	.sticker {
+		height: 50px;
+	}
+
+	.single-comment {
+		width: 300px;
+	}
+
 }

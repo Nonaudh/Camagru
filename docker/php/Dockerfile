@@ -14,16 +14,10 @@ RUN curl -fsSL https://github.com/mailhog/mhsendmail/releases/latest/download/mh
     -o /usr/local/bin/mhsendmail \
  && chmod +x /usr/local/bin/mhsendmail
 
-RUN mkdir -p /run/php
 COPY /conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
-COPY /tool/script.sh /tmp/script.sh
-
-# COPY /conf/ssmtp.conf /etc/ssmtp/ssmtp.conf
 COPY /conf/mail.ini /usr/local/etc/php/conf.d/mail.ini
-# COPY conf/mail.ini /etc/php/8.2/fpm/conf.d/mail.ini
-# RUN echo 'sendmail_path = "/usr/sbin/ssmtp -t -i"' > /usr/local/etc/php/conf.d/mail.ini
-# COPY /conf/php.ini /usr/local/etc/php/php.ini
 
+COPY /tool/script.sh /tmp/script.sh
 RUN chmod +x /tmp/script.sh
 
 ENTRYPOINT ["/tmp/script.sh"]
