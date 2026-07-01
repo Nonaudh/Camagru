@@ -18,9 +18,10 @@
 </div>
 
 <div id="stickers">
-	<img class="sticker" src="/assets/stickers/crash.png">
 	<img class="sticker" src="/assets/stickers/wu-tang-logo.png">
 	<img class="sticker" src="/assets/stickers/cdm.png">
+	<img class="sticker" src="/assets/stickers/pat.png">
+	<img class="sticker" src="/assets/stickers/cat.png">
 </div>
 
 <button type="button" id="capture-btn" disabled>Take Photo</button>

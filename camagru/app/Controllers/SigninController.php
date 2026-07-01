@@ -97,11 +97,6 @@ class SigninController extends Controller
 			$this->flash_and_quit("success", "Account successfully created, please verify it", '');
 
 		$this->flash_and_quit("error", "Error while sending email", '');
-
-		// if (DEVELOPMENT == true)
-		// 	$this->flash_and_quit("success", "https://localhost:8443/verify?token=" . $verification_token, '');
-		// // EMAIL
-		// $this->flash_and_quit("success", "Account successfully created !", '');
 	}
 
 	private function sendVerificationEmail($email, $pseudo, $verification_token)

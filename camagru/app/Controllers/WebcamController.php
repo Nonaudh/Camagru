@@ -33,18 +33,12 @@ class WebcamController extends Controller
 			$allowedExtensions = ['png', 'jpeg', 'jpg'];
 
 			if (!in_array($extension, $allowedExtensions))
-			{
-				echo json_encode(['success' => false]);
 				return ;
-			}
 
 			$file_name = uniqid() . '.' . $extension;
 
 			if (!move_uploaded_file($tmp_name, $folder . $file_name))
-			{
-				echo json_encode(['success' => false]);
 				return ;
-			}
 
 			$imageModel = new ImageModel(Database::getInstance());
 
@@ -52,7 +46,6 @@ class WebcamController extends Controller
 				'user_id' => $_SESSION['user']['id'],
 				'filepath' => '/images/' . $file_name
 			]);
-			echo json_encode(['success' => true]);
 		}
 	}
 
@@ -103,12 +96,7 @@ class WebcamController extends Controller
 			'filepath' => $filepath
 		]);
 
-
 		imagedestroy($img);
-
-		echo json_encode([
-			'success' => true
-		]);
 	}
 
 	public function getThumbnails()
@@ -119,9 +107,7 @@ class WebcamController extends Controller
 	
 		foreach ($images as $image)
 		{
-			// echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
 			echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
-			// echo '</a>';
 		}
 	}
 

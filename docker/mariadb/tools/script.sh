@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS comments (
 
 EOF
 
-mysql_upgrade
+# mysql_upgrade
 mysqld
 
 # ALTER TABLE users ADD COLUMN reset_token VARCHAR(255);

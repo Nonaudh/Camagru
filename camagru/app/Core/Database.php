@@ -24,7 +24,6 @@ class Database
 		}
 		catch (PDOException $e)
 		{
-			// to log
 			die('Error db connection : ' . $e->getMessage());
 		}
 	}

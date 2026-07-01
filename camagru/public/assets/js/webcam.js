@@ -4,17 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	const captureButton = document.getElementById('capture-btn');
 
 	updateGallery();
-	
-	function getConstraints()
-	{
-		if (window.matchMedia("(max-width: 600px)").matches)
-			return { video: { width: 320, height: 240 } };
-		return { video: { width: 640, height: 480 } };
-	}
 
 	let camera_ready = 0;
 
-	navigator.mediaDevices.getUserMedia(getConstraints())
+	navigator.mediaDevices.getUserMedia({video: { width: 640, height: 480 }})
 	.then(stream => { video.srcObject = stream;  camera_ready = 1;})
 	.catch(err => { console.error(err); });
 
@@ -44,8 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
 				y: sticker.dataset.y
 			});
 		});
-
-		// console.log(stickers);
 
 		fetch('/webcam/capture', {
 			method: 'POST',
@@ -96,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			body: formData
 		})
 		.then(response => response.text())
-		.then(data => {console.log(data); updateGallery();})
+		.then(data => {updateGallery();})
 		.catch(error => {console.error('Upload error');});
 	});
 
@@ -108,12 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById('thumbnails').innerHTML = html;
 		});
 	}
-
-	// document.querySelectorAll('.thumbnails').forEach(thumbnail => {
-	// 	thumbnail.addEventListener('click', () => {
-	// 		console.log("click");
-	// 	});
-	// });
 
 	document.getElementById('thumbnails').addEventListener('click', (e) => {
 		if (e.target.tagName === 'IMG') {

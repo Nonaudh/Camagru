@@ -1,13 +1,9 @@
-
-// const sticker = document.getElementById('previewSticker');
 const container = document.getElementById('camera-container');
 
 let isDragging = false;
 let currentTarget = null;
-// let offsetX = 0;
-// let offsetY = 0;
 
-container.addEventListener('mousedown', (e) => {
+container.addEventListener('pointerdown', (e) => {
 	if (e.target.tagName === 'IMG') 
 	{
 		currentTarget = e.target;
@@ -20,7 +16,7 @@ container.addEventListener('mousedown', (e) => {
 	}
 });
 
-document.addEventListener('mousemove', (e) => {
+document.addEventListener('pointermove', (e) => {
 	if (!isDragging)
 		return ;
 
@@ -43,48 +39,10 @@ document.addEventListener('mousemove', (e) => {
 	currentTarget.style.top = y + "px";
 });
 
-document.addEventListener('mouseup', () => {
+document.addEventListener('pointerup', () => {
     isDragging = false;
 	currentTarget = null;
 });
-
-// sticker.addEventListener('mousedown', (e) => {
-// 	e.preventDefault();
-//     isDragging = true;
-
-//     const rect = sticker.getBoundingClientRect();
-//     offsetX = e.clientX - rect.left;
-//     offsetY = e.clientY - rect.top;
-// });
-
-// document.addEventListener('mousemove', (e) => {
-//     if (!isDragging)
-//         return;
-
-//     const containerRect = container.getBoundingClientRect();
-// 	const stickerRect = sticker.getBoundingClientRect();
-
-// 	let x = e.clientX - containerRect.left - offsetX;
-//     let y = e.clientY - containerRect.top - offsetY;
-
-// 	// console.log(sticker.width , sticker.height);
-
-// 	x = Math.max(0, Math.min(x, container.clientWidth - stickerRect.width));
-//     y = Math.max(0, Math.min(y, container.clientHeight - stickerRect.height));
-
-// 	const xPercent = x / containerRect.width;
-//     const yPercent = y / containerRect.height;
-
-//     sticker.dataset.x = xPercent;
-//     sticker.dataset.y = yPercent;
-
-//     sticker.style.left = x + "px";
-//     sticker.style.top = y + "px";
-// });
-
-// document.addEventListener('mouseup', () => {
-//     isDragging = false;
-// });
 
 function updateStickerPosition() {
     const containerRect = container.getBoundingClientRect();

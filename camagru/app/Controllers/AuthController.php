@@ -60,9 +60,10 @@ class AuthController extends Controller
 	public function sendResetEmail($email, $token)
 	{
 		$subject = "Reset your email.";
-		$token = "https://localhost:8443/reset?token=" . $token;
+		$message = "Click on the link to reset your password\r\n" .
+					"https://localhost:8443/reset?token=" . $token;
 		
-		return (Mail::send($email, $subject, $token));
+		return (Mail::send($email, $subject, $message));
 	}
 
 	function reset()
