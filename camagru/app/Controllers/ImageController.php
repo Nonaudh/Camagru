@@ -17,6 +17,12 @@ class ImageController extends Controller
 		$title = "Camagraou";
 		$flash = Flash::get();
 
+		if (!isset($_GET['id']))
+		{
+			header('Location: ' . BASE_URL . 'error404');
+			exit ;
+		}
+
 		$imageModel = new ImageModel(Database::getInstance());
 
 		$image = $imageModel->getImageById($_GET['id']);

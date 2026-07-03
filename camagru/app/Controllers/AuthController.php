@@ -59,7 +59,7 @@ class AuthController extends Controller
 
 	public function sendResetEmail($email, $token)
 	{
-		$subject = "Reset your email.";
+		$subject = "Reset your password.";
 		$message = "Click on the link to reset your password\r\n" .
 					"https://localhost:8443/reset?token=" . $token;
 		
@@ -75,27 +75,19 @@ class AuthController extends Controller
 		$errors = [];
 
 		if (!$token)
-		{
-			$errors = ["No token was given."];
-			return ;
-		}
+			$this->flash_and_quit("error", "Invalid reset link.", "");
 
 		$userModel = new UserModel(Database::getInstance());
 		$user = $userModel->findByToken($token);
 
 		if (!$user)
-		{
-			$errors = ["Invalid link."];
-			return ;		
-		}
+			$this->flash_and_quit("error", "Invalid reset link.", "");
 
 		$expiry = strtotime($user['reset_token_expiry']);
 
 		if ($expiry < time())
-		{
-			$errors = ["Token expired."];
-			return ;
-		}
+			$this->flash_and_quit("error", "Reset link expired.", "");
+
 		View::render('auth/reset_form', compact('title', 'token', 'flash'));
 	}
 
@@ -125,7 +117,7 @@ class AuthController extends Controller
 
 			$userModel->updatePassword($user['id'], $hash);
 
-			$this->flash_and_quit("success", "Password successfuly been changed.", "");
+			$this->flash_and_quit("success", "Your password has been successfuly changed.", "");
 		}
 	}
 }
