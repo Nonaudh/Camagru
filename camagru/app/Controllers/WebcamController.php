@@ -30,15 +30,45 @@ class WebcamController extends Controller
 			$folder = '/var/www/html/public/images/';
 
 			$extension = pathinfo($file_name, PATHINFO_EXTENSION);
-			$allowedExtensions = ['png', 'jpeg', 'jpg'];
+			$allowedExtensions = ['png', 'jpeg'];
 
 			if (!in_array($extension, $allowedExtensions))
 				return ;
 
+			if ($extension == 'png')
+				$img = imagecreatefrompng($tmp_name);
+			if ($extension == 'jpeg')
+				$img = imagecreatefromjpeg($tmp_name);
+
+    		$stickers = [];
+
+			if (isset($_POST['stickers']))
+			{
+				$stickers = json_decode($_POST['stickers'], true);
+				// echo json_encode(['sticker' => var_dump($stickers)]);
+			}
+
+			foreach ($stickers as $sticker)
+			{
+				$src = $sticker['src'];
+				$x = $sticker['x'];
+				$y = $sticker['y'];
+
+				$src = imagecreatefrompng('/var/www/html/public/' . str_replace('https://localhost:8443/', '', $src));
+		
+				imagecopy($img, $src, $x * imagesx($img), $y * imagesy($img), 0, 0, imagesx($src), imagesy($src));
+
+				imagedestroy($src);
+
+				echo json_encode(['sticker' => $src]);
+			}
+
 			$file_name = uniqid() . '.' . $extension;
 
-			if (!move_uploaded_file($tmp_name, $folder . $file_name))
-				return ;
+			imagejpeg($img, $folder . $file_name , 90);
+
+			// if (!move_uploaded_file($tmp_name, $folder . $file_name))
+			// 	return ;
 
 			$imageModel = new ImageModel(Database::getInstance());
 

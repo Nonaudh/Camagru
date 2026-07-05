@@ -12,6 +12,7 @@
 	<div id="camera-container">
 		<video id="video" autoplay></video>
 		<canvas id="canvas" hidden></canvas>
+		<img id="image">
 	</div>
 
     <div id="thumbnails"></div>
