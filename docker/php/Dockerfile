@@ -14,7 +14,7 @@ RUN curl -fsSL https://github.com/mailhog/mhsendmail/releases/latest/download/mh
     -o /usr/local/bin/mhsendmail \
  && chmod +x /usr/local/bin/mhsendmail
 
-COPY /conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+# COPY /conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 COPY /conf/mail.ini /usr/local/etc/php/conf.d/mail.ini
 
 COPY /tool/script.sh /tmp/script.sh
