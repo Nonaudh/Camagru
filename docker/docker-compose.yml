@@ -13,7 +13,7 @@ services:
       - php_data:/var/www/html
       - images:/var/www/html/public/images
     networks:
-      inception:
+      camagraou:
 
   php:
     build: php/.
@@ -29,7 +29,7 @@ services:
       - php_data:/var/www/html
       - images:/var/www/html/public/images
     networks:
-      inception:
+      camagraou:
 
   mariadb:
     build: mariadb/.
@@ -39,7 +39,7 @@ services:
     volumes:
       - database:/var/lib/mysql
     networks:
-      inception:
+      camagraou:
 
   mailhog:
     image: mailhog/mailhog
@@ -49,10 +49,10 @@ services:
       - "8025:8025"
       - "1025:1025"
     networks:
-      inception:
+      camagraou:
 
 networks:
-  inception:
+  camagraou:
     driver : bridge
 
 volumes:
