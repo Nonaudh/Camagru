@@ -15,7 +15,17 @@ class WebcamController extends Controller
 		$title = "Webcam - Camagraou";
 		$desc = "Webcam - Camagraou";
 
-		View::render('webcam', compact('title', 'desc'));
+		if (!isset($_GET['i']) || $_GET['i'] == 'webcam')
+			View::render('webcam', compact('title', 'desc'));
+
+		else if ($_GET['i'] == 'file')
+			View::render('webcamFile', compact('title', 'desc'));
+
+		else
+		{
+			header('Location: ' . BASE_URL . 'error404');
+			exit ;
+		}
 	}
 
 	public function handleFileInput()

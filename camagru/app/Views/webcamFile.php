@@ -1,19 +1,20 @@
-<h1>Welcome to Webcam</h1>
+<h1>Welcome to Webcam with file</h1>
 <p>Hi <?= htmlspecialchars($_SESSION['user']['pseudo']) ?> !</p>
 
-<p>No Webcam ? <a href="<?= BASE_URL ?>webcam?i=file">No problem</a></p>
+<p>Want to activate your webcam ? <a href="<?= BASE_URL ?>webcam?i=webcam">Click here</a></p>
 
-<!-- <form id="uploadForm" action="<?= BASE_URL ?>webcam/fileInput" method="post" enctype="multipart/form-data">
+<form id="uploadForm" action="<?= BASE_URL ?>webcam/fileInput" method="post" enctype="multipart/form-data">
 	<label for="file">Select a file:</label>
 	<input type="file" id="file" name="fileInput" required>
 
 	<button type="submit">Submit File</button>
-</form> -->
+</form>
 
 <div id="webcam-container">
 	<div id="camera-container">
-		<video id="video" autoplay></video>
+		<!-- <video id="video" autoplay></video> -->
 		<canvas id="canvas" hidden></canvas>
+		<!-- <img id="image"> -->
 	</div>
 
     <div id="thumbnails"></div>
