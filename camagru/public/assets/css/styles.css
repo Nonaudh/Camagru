@@ -115,6 +115,11 @@ form label {
 	height: 480px;
 }
 
+#image {
+	height: 480px;
+	max-width: 640px;
+}
+
 .overlay-sticker {
     position: absolute;
 	top: 0;

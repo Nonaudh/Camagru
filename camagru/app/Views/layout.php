@@ -7,7 +7,7 @@ function e(string $value) : string
 
 header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff');
-header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'");
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob:;");
 
 ?>
 
