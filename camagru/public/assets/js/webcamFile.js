@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	updateGallery();
 
-	const fileInput = document.getElementById("file");
+	const fileInput = document.getElementById("fileInput");
 	const image = document.getElementById("image");
 
 	let selectedFile = null;
@@ -29,10 +29,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		imageUrl = URL.createObjectURL(file);
 		image.src = imageUrl;
+
+		captureButton.disabled = false;
 	});
 
 
-	// captureButton.addEventListener('click', capturePhoto);
+	captureButton.addEventListener('click', capturePhoto);
+
+	function capturePhoto() {
+
+		if (!selectedFile)
+			return ;
+
+		const file = fileInput.files[0];
+
+		const formData = new FormData();
+		formData.append('fileInput', file);
+
+		const rect = image.getBoundingClientRect();
+
+		formData.append('imageWidth', rect.width);
+
+		fetch('/webcam/fileInput', {
+			method: 'POST',
+			body: formData
+		})
+		.then(() => updateGallery())
+		// .then(response => response.text())
+		// .then(data => {
+		// 	console.log(data);
+		// })
+		// .catch(error => {
+		// 	console.error(error);
+		// });
+
+	}
 
 	// function capturePhoto() {
 
@@ -75,27 +106,28 @@ document.addEventListener("DOMContentLoaded", () => {
 	// 	.catch(err => console.error(err));
 	// }
 
-	// let selectedSticker = 0;
+	let selectedSticker = 0;
 
-	// document.querySelectorAll('.sticker').forEach(sticker => {
-	// 	sticker.addEventListener('click', () => {
+	document.querySelectorAll('.sticker').forEach(sticker => {
+		sticker.addEventListener('click', () => {
 
-	// 		if (selectedSticker > 50)
-	// 				return ;
+			if (selectedSticker > 50 || selectedFile == null)
+					return ;
 
-	// 			selectedSticker++;
+				selectedSticker++;
 
-	// 			captureButton.disabled = false;
+				captureButton.disabled = false;
 
-	// 			const img = document.createElement("img");
-	// 			img.src = sticker.src;
-	// 			img.className = "overlay-sticker";
-	// 			img.dataset.x = 0;
-	// 			img.dataset.y = 0;
+				const img = document.createElement("img");
+				img.src = sticker.src;
+				img.className = "overlay-sticker";
+				img.dataset.x = 0;
+				img.dataset.y = 0;
 
-	// 			container.appendChild(img);
-	// 		});
-	// 	});
+				container.appendChild(img);
+				updateStickerPosition();
+			});
+		});
 
 	// document.getElementById('uploadForm').addEventListener('submit', function (e) {
 	// 	e.preventDefault();

@@ -10,12 +10,12 @@
 	<button type="submit">Submit File</button>
 </form> -->
 
-<input type="file" id="file" accept="image/png, image/jpeg">
+<input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg">
 
 <div id="webcam-container">
 	<div id="camera-container">
 		<canvas id="canvas" hidden></canvas>
-		<img src="" id="image" alt="Preview">
+		<img src="" id="image">
 	</div>
 
     <div id="thumbnails"></div>
@@ -31,4 +31,4 @@
 <button type="button" id="capture-btn" disabled>Take Photo</button>
 
 <script src="<?= BASE_URL ?>assets/js/webcamFile.js"></script>
-<script src="<?= BASE_URL ?>assets/js/drag-stickers.js"></script>
+<script src="<?= BASE_URL ?>assets/js/drag-stickersFile.js"></script>

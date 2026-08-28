@@ -40,15 +40,28 @@ class WebcamController extends Controller
 			$folder = '/var/www/html/public/images/';
 
 			$extension = pathinfo($file_name, PATHINFO_EXTENSION);
-			$allowedExtensions = ['png', 'jpeg'];
+			$allowedExtensions = ['png', 'jpeg', 'jpg'];
 
 			if (!in_array($extension, $allowedExtensions))
+			{
+				echo json_encode(['error' => 'extensions']);
 				return ;
+			}
 
 			if ($extension == 'png')
 				$img = imagecreatefrompng($tmp_name);
-			if ($extension == 'jpeg')
+			if ($extension == 'jpeg' || $extension == 'jpg')
 				$img = imagecreatefromjpeg($tmp_name);
+
+			if (isset($_POST['imageWidth']))
+			{
+				$img = imagescale($img, (int)$_POST['imageWidth']);
+			}	
+			else
+			{
+				echo json_encode(['error' => 'no width']);
+				return ;
+			}
 
     		$stickers = [];
 
@@ -70,7 +83,7 @@ class WebcamController extends Controller
 
 				imagedestroy($src);
 
-				echo json_encode(['sticker' => $src]);
+				// echo json_encode(['sticker' => $src]);
 			}
 
 			$file_name = uniqid() . '.' . $extension;
@@ -86,6 +99,11 @@ class WebcamController extends Controller
 				'user_id' => $_SESSION['user']['id'],
 				'filepath' => '/images/' . $file_name
 			]);
+		}
+		else
+		{
+			echo json_encode(['error' => 'no file Input']);
+			return ;
 		}
 	}
 
