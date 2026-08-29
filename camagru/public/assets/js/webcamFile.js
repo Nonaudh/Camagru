@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			return;
 		}
 
+		const allStickers = document.querySelectorAll('.overlay-sticker');
+
+		allStickers.forEach(sticker => {
+			sticker.remove();
+		});
+
 		selectedFile = file;
 
 		if (imageUrl) {
@@ -49,6 +55,18 @@ document.addEventListener("DOMContentLoaded", () => {
 		const rect = image.getBoundingClientRect();
 
 		formData.append('imageWidth', rect.width);
+
+		let stickers = [];
+
+		document.querySelectorAll('.overlay-sticker').forEach(sticker => {
+			stickers.push({
+				src: sticker.src,
+				x: sticker.dataset.x,
+				y: sticker.dataset.y
+			});
+		});
+
+		formData.append("stickers", JSON.stringify(stickers));
 
 		fetch('/webcam/fileInput', {
 			method: 'POST',
@@ -124,8 +142,13 @@ document.addEventListener("DOMContentLoaded", () => {
 				img.dataset.x = 0;
 				img.dataset.y = 0;
 
+				const imageRect = image.getBoundingClientRect();
+				const containerRect = container.getBoundingClientRect();
+
+				img.style.left = (imageRect.left - containerRect.left) + 'px';
+    			img.style.top = (imageRect.top - containerRect.top) + 'px';
+
 				container.appendChild(img);
-				updateStickerPosition();
 			});
 		});
 

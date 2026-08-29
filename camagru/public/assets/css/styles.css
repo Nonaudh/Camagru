@@ -116,7 +116,10 @@ form label {
 }
 
 #image {
-	height: 480px;
+	/* width: 100%;
+  	height: 100%; */
+	/* object-fit: contain; */
+	max-height: 480px;
 	max-width: 640px;
 }
 
