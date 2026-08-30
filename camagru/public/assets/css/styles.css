@@ -87,7 +87,9 @@ form label {
 }
 
 .image-details img {
-	height: 480px;
+	max-height: 480px;
+	max-width: 640px;
+	/* height: 480px; */
 }
 
 .sticker {
@@ -139,7 +141,7 @@ form label {
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	padding: 5px;
-	width: 300px;
+	max-width: 300px;
 	margin: 5px;
 }
 
