@@ -202,8 +202,10 @@ form label {
 	}
 
 	#image {
-		max-height: 240px;
-		max-width: 320px;
+		transform: scale(0.5);
+		transform-origin: top left ;
+		/* max-height: 240px;
+		max-width: 320px; */
 	}
 
 	.overlay-sticker {
