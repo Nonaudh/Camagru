@@ -29,15 +29,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		selectedFile = file;
 
-		if (imageUrl) {
+		if (imageUrl)
 			URL.revokeObjectURL(imageUrl);
-		}
 
 		imageUrl = URL.createObjectURL(file);
 		image.src = imageUrl;
 
 		captureButton.disabled = false;
 	});
+
+	function getImageWidth()
+	{
+		const maxWidth = 640;
+		const maxHeight = 480;
+
+		if (image.naturalWidth < maxWidth && image.naturalHeight < maxHeight)
+			return (image.naturalWidth);
+
+		const scale = Math.min(
+		maxWidth / image.naturalWidth,
+		maxHeight / image.naturalHeight
+		);
+
+		const width = image.naturalWidth * scale;
+		const height = image.naturalHeight * scale;
+
+		return (width);
+	}
 
 
 	captureButton.addEventListener('click', capturePhoto);
@@ -52,9 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		const formData = new FormData();
 		formData.append('fileInput', file);
 
-		const rect = image.getBoundingClientRect();
+		// const rect = image.getBoundingClientRect();
 
-		formData.append('imageWidth', rect.width);
+		const width = getImageWidth();
+
+		formData.append('imageWidth', width);
 
 		let stickers = [];
 
