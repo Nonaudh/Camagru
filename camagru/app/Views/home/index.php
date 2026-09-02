@@ -3,17 +3,7 @@
 </p>
 
 
-<div class="pictures-container" id="home-gallery">
-
-	<!-- <?php foreach ($images as $image)
-	{
-		echo '<a href= "image?id=' . htmlspecialchars($image['id']) .'">';
-		echo '<img src= "' . htmlspecialchars($image['filepath']) . '">';
-		echo '</a>';
-	}
-	?> -->
-
-</div>
+<div class="pictures-container" id="home-gallery"></div>
 
 <div id="home-observer"></div>
 

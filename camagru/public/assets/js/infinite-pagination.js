@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const observer = new IntersectionObserver(entries => {
 		if (entries[0].isIntersecting)
 			loadGallery()
-	});
+	}, {root: null, rootMargin: "0px", threshold: 0.5});
 
 	observer.observe(document.getElementById("home-observer"));
 
