@@ -129,22 +129,40 @@ form label {
 	cursor: grab;
 }
 
-.pictures-container {
+.home-gallery {
 	margin-left: 20%;
 	margin-right: 20%;
+	display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    gap: 10px;
 }
 
-.pictures-container img {
+.image-container{
+	/* background-color: rebeccapurple; */
+	width: 200px;
+	height: 200px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.image-container img {
 	border: 1px solid #ddd;
 	border-radius: 4px;
-	padding: 5px;
-	max-width: 300px;
+	/* width: 100%;
+	height: 100%; */
+
+	object-fit: contain;
+	/* padding: 5px; */
+	max-width: 200px;
 	max-height: 200px;
-	margin: 5px;
+	/* margin: 5px; */
 }
 
-.pictures-container img:hover {
-	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+
+.image-container img:hover {
+	box-shadow: 0 0 2px 1px rebeccapurple;
 }
 
 #thumbnails {

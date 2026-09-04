@@ -3,7 +3,7 @@
 </p>
 
 
-<div class="pictures-container" id="home-gallery"></div>
+<div class="home-gallery" id="home-gallery"></div>
 
 <div id="home-observer"></div>
 

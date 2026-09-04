@@ -47,6 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		photos.forEach(photo => {
 
+			const container = document.createElement("div");
+			container.classList.add("image-container");
+
 			const link = document.createElement("a");
 			link.href = `image?id=${photo.id}`;
 
@@ -54,7 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			img.src = photo.filepath;
 
 			link.appendChild(img);
-			gallery.appendChild(link);
+			container.appendChild(link);
+			gallery.appendChild(container);
 		});
 	}
 });
