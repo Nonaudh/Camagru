@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.querySelectorAll('.sticker').forEach(sticker => {
 		sticker.addEventListener('click', () => {
 
-			if (selectedSticker > 50)
+			if (selectedSticker > 50 || !camera_ready)
 					return ;
 
 				selectedSticker++;
