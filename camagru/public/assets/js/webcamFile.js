@@ -70,8 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		const formData = new FormData();
 		formData.append('fileInput', file);
 
-		// const rect = image.getBoundingClientRect();
-
 		const width = getImageWidth();
 
 		formData.append('imageWidth', width);
@@ -103,47 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	}
 
-	// function capturePhoto() {
-
-	// 	if (!selectedSticker || !camera_ready)
-	// 		return ;
-
-	// 	const stickers = [];
-
-	// 	const canvas = document.getElementById('canvas');
-	// 	const context = canvas.getContext('2d');
-
-	// 	canvas.width = video.videoWidth;
-	// 	canvas.height = video.videoHeight;
-
-	// 	context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-	// 	const photoDataUrl = canvas.toDataURL('image/jpeg');
-
-	// 	document.querySelectorAll('.overlay-sticker').forEach(sticker => {
-	// 		stickers.push({
-	// 			src: sticker.src,
-	// 			x: sticker.dataset.x,
-	// 			y: sticker.dataset.y
-	// 		});
-	// 	});
-
-	// 	fetch('/webcam/capture', {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		body: JSON.stringify({
-	// 			image: photoDataUrl,
-	// 			stickers: stickers
-	// 		})
-	// 	})
-	// 	.then(res => res.text())
-	// 	// .then(text => console.log(text))
-	// 	.then(() => updateGallery())
-	// 	.catch(err => console.error(err));
-	// }
-
 	let selectedSticker = 0;
 
 	document.querySelectorAll('.sticker').forEach(sticker => {
@@ -171,34 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
 				container.appendChild(img);
 			});
 		});
-
-	// document.getElementById('uploadForm').addEventListener('submit', function (e) {
-	// 	e.preventDefault();
-
-	// 	const form = e.target;
-	// 	const formData = new FormData(form);
-
-	// 	const stickers = [];
-
-	// 	document.querySelectorAll('.overlay-sticker').forEach(sticker => {
-	// 		stickers.push({
-	// 			src: sticker.src,
-	// 			x: sticker.dataset.x,
-	// 			y: sticker.dataset.y
-	// 		});
-	// 	});
-
-	// 	formData.append("stickers", JSON.stringify(stickers));
-
-	// 	fetch(form.action, {
-	// 		method: 'POST',
-	// 		body: formData
-	// 	})
-	// 	.then(response => response.text())
-	// 	// .then(text => console.log(text))
-	// 	.then(data => {updateGallery();})
-	// 	.catch(error => {console.error('Upload error');});
-	// });
 
 	function updateGallery()
 	{

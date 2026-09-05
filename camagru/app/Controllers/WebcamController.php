@@ -90,9 +90,6 @@ class WebcamController extends Controller
 
 			imagejpeg($img, $folder . $file_name , 90);
 
-			// if (!move_uploaded_file($tmp_name, $folder . $file_name))
-			// 	return ;
-
 			$imageModel = new ImageModel(Database::getInstance());
 
 			$imageModel->create([

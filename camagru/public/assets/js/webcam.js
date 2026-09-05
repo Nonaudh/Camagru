@@ -76,34 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		});
 
-	// document.getElementById('uploadForm').addEventListener('submit', function (e) {
-	// 	e.preventDefault();
-
-	// 	const form = e.target;
-	// 	const formData = new FormData(form);
-
-	// 	const stickers = [];
-
-	// 	document.querySelectorAll('.overlay-sticker').forEach(sticker => {
-	// 		stickers.push({
-	// 			src: sticker.src,
-	// 			x: sticker.dataset.x,
-	// 			y: sticker.dataset.y
-	// 		});
-	// 	});
-
-	// 	formData.append("stickers", JSON.stringify(stickers));
-
-	// 	fetch(form.action, {
-	// 		method: 'POST',
-	// 		body: formData
-	// 	})
-	// 	.then(response => response.text())
-	// 	// .then(text => console.log(text))
-	// 	.then(data => {updateGallery();})
-	// 	.catch(error => {console.error('Upload error');});
-	// });
-
 	function updateGallery()
 	{
 		fetch('/thumbnails')

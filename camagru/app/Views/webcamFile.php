@@ -1,14 +1,7 @@
 <h1>Welcome to Webcam with file</h1>
 <p>Hi <?= htmlspecialchars($_SESSION['user']['pseudo']) ?> !</p>
 
-<p>Want to activate your webcam ? <a href="<?= BASE_URL ?>webcam?i=webcam">Click here</a></p>
-
-<!-- <form id="uploadForm" action="<?= BASE_URL ?>webcam/fileInput" method="post" enctype="multipart/form-data">
-	<label for="file">Select a file:</label>
-	<input type="file" id="file" name="fileInput" required>
-
-	<button type="submit">Submit File</button>
-</form> -->
+<p>Want to take pics with your webcam ? <a href="<?= BASE_URL ?>webcam?i=webcam">Click here</a></p>
 
 <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg">
 
